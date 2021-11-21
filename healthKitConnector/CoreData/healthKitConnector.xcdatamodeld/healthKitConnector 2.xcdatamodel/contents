@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Aggregation" representedClassName=".Aggregation" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="aggregation2quantitytypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Quantitytype" inverseName="quantitytype2aggregation" inverseEntity="Quantitytype"/>
+    </entity>
+    <entity name="Device" representedClassName=".Device" syncable="YES">
+        <attribute name="hk_firmwareVersion" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_hardwareVersion" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_localIdentifier" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_manufacturer" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_model" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_name" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_softwareVersion" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_udiDeviceIdentifier" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="isdefault" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="device2Logs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Log" inverseName="log2Device" inverseEntity="Log"/>
+    </entity>
+    <entity name="Log" representedClassName=".Log" syncable="YES">
+        <attribute name="timeStamp" attributeType="Date" defaultDateTimeInterval="-28947600" usesScalarValueType="NO"/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="value" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="log2Device" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="device2Logs" inverseEntity="Device"/>
+        <relationship name="log2quantitytype" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quantitytype" inverseName="quantitytype2logs" inverseEntity="Quantitytype"/>
+        <relationship name="log2source" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Source" inverseName="source2logs" inverseEntity="Source"/>
+    </entity>
+    <entity name="Quantitytype" representedClassName=".Quantitytype" syncable="YES">
+        <attribute name="delay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="hk_quantitytype" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="preferredUnit" optional="YES" attributeType="String"/>
+        <relationship name="quantitytype2aggregation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Aggregation" inverseName="aggregation2quantitytypes" inverseEntity="Aggregation"/>
+        <relationship name="quantitytype2logs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Log" inverseName="log2quantitytype" inverseEntity="Log"/>
+    </entity>
+    <entity name="Source" representedClassName=".Source" syncable="YES">
+        <attribute name="hk_bundleIdentifier" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_name" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_operatingSystemVersion" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_productType" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="hk_version" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="isdefault" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="source2logs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Log" inverseName="log2source" inverseEntity="Log"/>
+    </entity>
+    <elements>
+        <element name="Aggregation" positionX="-252" positionY="-189" width="128" height="74"/>
+        <element name="Device" positionX="-43.8695068359375" positionY="-264.2937469482422" width="128" height="194"/>
+        <element name="Log" positionX="-267.0009155273438" positionY="-354.2608795166016" width="128" height="133"/>
+        <element name="Quantitytype" positionX="-484.8496704101562" positionY="-248.0467681884766" width="128" height="134"/>
+        <element name="Source" positionX="-259.8517456054688" positionY="-164.2729949951172" width="128" height="58"/>
+    </elements>
+</model>
