@@ -35,7 +35,7 @@ class peas_QuantityType {
         self.quantityType = quantityType
         self.healthStore = healthStore
         self.preferredUnit  = preferredUnit
-        self.moc = PersistenceController.shared.container.viewContext
+        self.moc = PersistenceController.shared.cloudContainer.viewContext
     }
     fileprivate func storeSamples(_ samples: [HKQuantitySample]) {
         samples.forEach { sample in
@@ -54,9 +54,12 @@ class peas_QuantityType {
         else {
             anchor = HKQueryAnchor.init(fromValue: 0)
         }
+        let startDate = Date("2018-01-07")
+        let endDate = Date("2018-12-31")
         
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions.strictEndDate)
         let query = HKAnchoredObjectQuery(type: self.quantityType,
-                                          predicate: nil,
+                                          predicate: predicate,
                                           anchor: anchor,
                                           limit: HKObjectQueryNoLimit)
         { (query, samplesOrNil, deletedObjectsOrNil, newAnchor, errorOrNil) in

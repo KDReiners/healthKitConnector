@@ -30,7 +30,7 @@ class peas_QuantityTypes: ObservableObject {
     
     internal var listOfQuantityTypes = Dictionary<String, peas_QuantityType>()
     init() {
-        self.moc=PersistenceController.shared.container.viewContext
+        self.moc=PersistenceController.shared.cloudContainer.viewContext
         //setupCloudkitInteraction()
     }
     func setupCloudkitInteraction() -> Void {
