@@ -35,6 +35,12 @@ struct HealthKitView: View {
                         .bold()
 
             }
+            Divider()
+            Button(action: getStatistics) {
+                Text("StatisticsCollectionQuery")
+                    .font(.title)
+                    .bold()
+            }
         }
     }
     func createTestData() -> Void {
@@ -46,6 +52,9 @@ struct HealthKitView: View {
     }
     func fetchAllHealthData() -> Void {
         bo.fetchAllHealthData()
+    }
+    func getStatistics() -> Void {
+        
     }
     func updateSources() -> Void {
         bo.listOfQuantityTypes.forEach {quantityType in
