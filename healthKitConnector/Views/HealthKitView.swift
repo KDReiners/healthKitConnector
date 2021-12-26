@@ -57,7 +57,7 @@ struct HealthKitView: View {
         bo.getStatistics()
     }
     func updateSources() -> Void {
-        bo.listOfQuantityTypes.forEach {quantityType in
+        bo.listOfQuantityTypes.forEach { quantityType in
             quantityType.value.samples.forEach{ sample in
                 quantityType.value.CD_updateFromSample(sample: sample)
             }

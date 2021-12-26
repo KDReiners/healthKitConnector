@@ -59,7 +59,7 @@ class peas_QuantityType {
         
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions.strictEndDate)
         let query = HKAnchoredObjectQuery(type: self.quantityType,
-                                          predicate: predicate,
+                                          predicate: nil,
                                           anchor: anchor,
                                           limit: HKObjectQueryNoLimit)
         { (query, samplesOrNil, deletedObjectsOrNil, newAnchor, errorOrNil) in

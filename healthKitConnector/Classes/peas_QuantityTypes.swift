@@ -27,7 +27,8 @@ class peas_QuantityTypes: ObservableObject {
                                      HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,
                                      HKObjectType.quantityType(forIdentifier: .restingHeartRate)!,
                                      HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)!,
-                                     HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!])
+                                     HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
+                                     HKObjectType.quantityType(forIdentifier:  .basalEnergyBurned)!])
     
     internal var listOfQuantityTypes = Dictionary<String, peas_QuantityType>()
     init() {
