@@ -54,7 +54,7 @@ struct HealthKitView: View {
         bo.fetchAllHealthData()
     }
     func getStatistics() -> Void {
-        
+        bo.getStatistics()
     }
     func updateSources() -> Void {
         bo.listOfQuantityTypes.forEach {quantityType in

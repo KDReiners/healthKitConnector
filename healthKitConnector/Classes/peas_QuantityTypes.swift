@@ -20,7 +20,8 @@ class peas_QuantityTypes: ObservableObject {
                                     HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,
                                     HKObjectType.quantityType(forIdentifier: .restingHeartRate)!,
                                     HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)!,
-                                    HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!])
+                                    HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
+                                    HKObjectType.quantityType(forIdentifier:  .basalEnergyBurned)!])
     fileprivate let writeData = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!,
                                      HKObjectType.quantityType(forIdentifier: .bloodGlucose)!,
                                      HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,
@@ -108,6 +109,31 @@ class peas_QuantityTypes: ObservableObject {
             }
         }
         group.wait()
+    }
+    func getStatistics() -> Void {
+        for (_, peas_quantityType) in listOfQuantityTypes {
+            if peas_quantityType.quantityType == HKObjectType.quantityType(forIdentifier: .basalEnergyBurned) {
+                var interval = DateComponents()
+                interval.day = 1
+                let calendar = Calendar.current
+                let startDate = Date("2018-01-01")
+                let anchorDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: startDate)
+
+                let query = HKStatisticsCollectionQuery.init(quantityType: peas_quantityType.quantityType,
+                                                             quantitySamplePredicate: nil,
+                                                             options: .cumulativeSum,
+                                                             anchorDate: anchorDate!,
+                                                             intervalComponents: interval)
+                query.initialResultsHandler = {
+                    query, results, error in
+                    results?.enumerateStatistics(from: startDate, to: Date(), with: { (result, stop) in
+                        print("Time: \(result.startDate), \(result.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie()) ?? 0)")
+                        })
+                    }
+                    healthStore.execute(query)
+                }
+            
+        }
     }
 
     func CD_returnItem(entity: String, uniqueIdentity: String,idAttributeName:String) -> NSManagedObject? {
