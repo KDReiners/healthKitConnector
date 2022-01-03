@@ -10,18 +10,28 @@ import CoreData
 import SwiftUI
 import CloudKit
 
+
 class peas_QuantityTypes: ObservableObject {
     internal let healthStore = HKHealthStore()
+    static internal var statiticDictionary: Dictionary<HKQuantityType, HKStatisticsOptions> = [
+        HKObjectType.quantityType(forIdentifier: .heartRate)!: .discreteAverage,
+        HKObjectType.quantityType(forIdentifier: .bloodGlucose)! : HKStatisticsOptions.discreteMin,
+        HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)! : HKStatisticsOptions.mostRecent,
+        HKObjectType.quantityType(forIdentifier: .restingHeartRate)! : HKStatisticsOptions.discreteAverage,
+        HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)! : HKStatisticsOptions.cumulativeSum,
+        HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)! : HKStatisticsOptions.cumulativeSum,
+        HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)! : HKStatisticsOptions.cumulativeSum]
+    
     var moc: NSManagedObjectContext
     var container = CKContainer.init(identifier: "iCloud.peas")
     var db : CKDatabase?
-    fileprivate let readData = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!,
-                                    HKObjectType.quantityType(forIdentifier: .bloodGlucose)!,
-                                    HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,
-                                    HKObjectType.quantityType(forIdentifier: .restingHeartRate)!,
-                                    HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)!,
-                                    HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
-                                    HKObjectType.quantityType(forIdentifier:  .basalEnergyBurned)!])
+    fileprivate let readData =  Set([HKObjectType.quantityType(forIdentifier: .heartRate)!,
+                                     HKObjectType.quantityType(forIdentifier: .bloodGlucose)!,
+                                     HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,
+                                     HKObjectType.quantityType(forIdentifier: .restingHeartRate)!,
+                                     HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)!,
+                                     HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
+                                     HKObjectType.quantityType(forIdentifier:  .basalEnergyBurned)!])
     fileprivate let writeData = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!,
                                      HKObjectType.quantityType(forIdentifier: .bloodGlucose)!,
                                      HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,

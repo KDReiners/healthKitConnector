@@ -14,7 +14,7 @@ class peas_Sample {
     var quantityType: HKQuantityType
     var quantity: Double
     var timeStamp: Date
-
+    
     init(sourceRevision: HKSourceRevision, device: HKDevice? = nil, quantity: Double, timeStamp: Date, quantityType: HKQuantityType) {
         self.sourceRevision = sourceRevision
         self.device = device
@@ -31,10 +31,12 @@ class peas_QuantityType {
     var samples = Array<peas_Sample>()
     var preferredUnit: HKUnit
     var moc: NSManagedObjectContext
+    var options: HKStatisticsOptions
     init (quantityType: HKQuantityType, preferredUnit: HKUnit, healthStore: HKHealthStore) {
         self.quantityType = quantityType
         self.healthStore = healthStore
         self.preferredUnit  = preferredUnit
+        self.options = peas_QuantityTypes.statiticDictionary[quantityType]!
         self.moc = PersistenceController.shared.cloudContainer.viewContext
     }
     fileprivate func storeSamples(_ samples: [HKQuantitySample]) {
@@ -173,6 +175,33 @@ class peas_QuantityType {
             result = cd_QuantityType
         }
         return result
+    }
+    internal func getStatistics() -> Void {
+        var querySampler = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit)
+        return
+        var interval = DateComponents()
+        interval.hour = 2
+        let calendar = Calendar.current
+        let startDate = Date("2021-12-30")
+        let anchorDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: startDate)
+        if quantityType == HKObjectType.quantityType(forIdentifier: .bloodGlucose) {
+            guard let queryOption = peas_QuantityTypes.statiticDictionary[quantityType] else {
+                fatalError()
+            }
+            let query = HKStatisticsCollectionQuery.init(quantityType: quantityType,
+                                                         quantitySamplePredicate: nil,
+                                                         options: queryOption,
+                                                         anchorDate: anchorDate!,
+                                                         intervalComponents: interval)
+            query.initialResultsHandler = {
+                query, results, error in
+    
+                results?.enumerateStatistics(from: startDate, to: Date(), with: { (result, stop) in
+                    print("Type: \(self.quantityType) Time: \(result.startDate), \(result.minimumQuantity()?.doubleValue(for: self.preferredUnit) ?? 0)")
+                    })
+                }
+                healthStore.execute(query)
+        }
     }
     // MARK: Helpers
     func returnItemForAttributeOfEntity(entity: String, uniqueIdentity: String,idAttributeName:String, idDate: Date? = nil, quantityType: peas_QuantityType? = nil) -> NSManagedObject? {
