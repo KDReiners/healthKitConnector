@@ -17,10 +17,8 @@
 		2D5A8106263DB6D3002899B9 /* peas_QuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5A8105263DB6D3002899B9 /* peas_QuantityType.swift */; };
 		2D5B821526230B6600BFFE19 /* ListQuantityTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B821426230B6600BFFE19 /* ListQuantityTypes.swift */; };
 		2D5DCB4A274982F60018B73F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB49274982F60018B73F /* Persistence.swift */; };
-		2D5DCB552749856A0018B73F /* Aggregation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4B274985690018B73F /* Aggregation+CoreDataProperties.swift */; };
 		2D5DCB562749856A0018B73F /* Quantitytype+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4C274985690018B73F /* Quantitytype+CoreDataClass.swift */; };
 		2D5DCB572749856A0018B73F /* Log+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */; };
-		2D5DCB582749856A0018B73F /* Aggregation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4E274985690018B73F /* Aggregation+CoreDataClass.swift */; };
 		2D5DCB592749856A0018B73F /* Source+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */; };
 		2D5DCB5A2749856A0018B73F /* Source+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */; };
 		2D5DCB5B2749856A0018B73F /* Quantitytype+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB512749856A0018B73F /* Quantitytype+CoreDataProperties.swift */; };
@@ -54,10 +52,8 @@
 		2D5A8105263DB6D3002899B9 /* peas_QuantityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peas_QuantityType.swift; sourceTree = "<group>"; };
 		2D5B821426230B6600BFFE19 /* ListQuantityTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListQuantityTypes.swift; sourceTree = "<group>"; };
 		2D5DCB49274982F60018B73F /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		2D5DCB4B274985690018B73F /* Aggregation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Aggregation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2D5DCB4C274985690018B73F /* Quantitytype+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Log+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2D5DCB4E274985690018B73F /* Aggregation+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Aggregation+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Source+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Source+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2D5DCB512749856A0018B73F /* Quantitytype+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -171,8 +167,6 @@
 				2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */,
 				2D5DCB532749856A0018B73F /* Device+CoreDataClass.swift */,
 				2D5DCB542749856A0018B73F /* Device+CoreDataProperties.swift */,
-				2D5DCB4E274985690018B73F /* Aggregation+CoreDataClass.swift */,
-				2D5DCB4B274985690018B73F /* Aggregation+CoreDataProperties.swift */,
 				2D5DCB4C274985690018B73F /* Quantitytype+CoreDataClass.swift */,
 				2D5DCB512749856A0018B73F /* Quantitytype+CoreDataProperties.swift */,
 				2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */,
@@ -271,7 +265,6 @@
 				2D5DCB572749856A0018B73F /* Log+CoreDataProperties.swift in Sources */,
 				2D5A8106263DB6D3002899B9 /* peas_QuantityType.swift in Sources */,
 				2D5DCB5A2749856A0018B73F /* Source+CoreDataProperties.swift in Sources */,
-				2D5DCB582749856A0018B73F /* Aggregation+CoreDataClass.swift in Sources */,
 				2D5DCB4A274982F60018B73F /* Persistence.swift in Sources */,
 				2DD32AB7260BCE9300B2F22A /* ListLogsView.swift in Sources */,
 				2DBA088927778C510020BCC9 /* healthKitConnector.xcdatamodeld in Sources */,
@@ -280,7 +273,6 @@
 				2DAA436E26503C760043F2A4 /* peas_QuantityTypes.swift in Sources */,
 				2D4E3977261CD41B00C8283E /* HealthKitView.swift in Sources */,
 				2D5DCB592749856A0018B73F /* Source+CoreDataClass.swift in Sources */,
-				2D5DCB552749856A0018B73F /* Aggregation+CoreDataProperties.swift in Sources */,
 				2D44EEA72607925D00A29E48 /* healthKitConnectorApp.swift in Sources */,
 				2D5DCB62274994170018B73F /* extensions.swift in Sources */,
 				2D5DCB5E2749856A0018B73F /* Device+CoreDataProperties.swift in Sources */,

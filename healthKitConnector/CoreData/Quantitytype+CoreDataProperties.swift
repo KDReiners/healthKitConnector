@@ -23,7 +23,6 @@ extension Quantitytype {
     @NSManaged public var friendlyname: String?
     @NSManaged public var rangefrom: Int16
     @NSManaged public var rangeto: Int16
-    @NSManaged public var quantitytype2aggregation: Aggregation?
     @NSManaged public var quantitytype2logs: NSSet?
 
 }
