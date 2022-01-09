@@ -178,7 +178,7 @@ class peas_QuantityTypes: ObservableObject {
             var randomInt : Int
             for hour in 1...sampleCount {
                 randomInt = Int.random(in: -12..<12)
-                let entryDateFrom = Calendar.current.date(byAdding: .hour, value: hour, to: dateTo)!
+                let entryDateFrom = Calendar.current.date(byAdding: .hour, value: hour, to: dateFrom)!
                 let changeQuantity = hour < 11 ? hour : -hour
                 let quantity = HKQuantity(unit: type.value.preferredUnit, doubleValue: Double(100 + changeQuantity))
                 writeQuantitySample(type: type.value.quantityType, quantity: quantity, start: entryDateFrom, end: entryDateFrom,  metaData: [:] )

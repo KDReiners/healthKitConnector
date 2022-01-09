@@ -7,6 +7,7 @@
 import HealthKit
 import Foundation
 import CoreData
+import UIKit
 // MARK: - Classes
 class peas_Sample {
     var sourceRevision: HKSourceRevision
@@ -23,7 +24,32 @@ class peas_Sample {
         self.quantityType = quantityType
     }
 }
-class peas_QuantityType {
+class peas_QuantityType: cloud_Delegate {
+    func storeInCloud(queryResults: [StatisticWriter.QueryResult]) {
+        let quantityType = CD_UpdateQuantityTypes(quantityType: self.quantityType)
+        let deviceInstance = HKDevice(name: "peas" , manufacturer: "Peas", model: "", hardwareVersion: "", firmwareVersion: "", softwareVersion: "", localIdentifier: "", udiDeviceIdentifier: "" )
+        let sourceInstance = HKSource.default()
+        let sourcRevision = HKSourceRevision(source: sourceInstance, version: "1.0")
+        let device = CD_updateDevices(device: deviceInstance)
+        let source = CD_updateSources(sourceRevision: sourcRevision)
+        source.uuid = UUID()
+        device?.uuid = UUID()
+        queryResults.forEach { result in
+            var logValue: Double = 0.00
+            if result.averageQuantity != nil || result.sumQuantity != nil {
+                logValue = (result.averageQuantity == nil ? result.sumQuantity! : result.averageQuantity!)
+            }
+            let cd_Log = Log(context: moc)
+            cd_Log.timeStamp = result.startDate
+            cd_Log.uuid = UUID()
+            cd_Log.value = logValue as NSNumber
+            cd_Log.log2quantitytype = quantityType
+            cd_Log.log2source = source
+            cd_Log.log2Device = device
+        }
+        cd_Save()
+    }
+    
     var quantityType: HKQuantityType
     var healthStore: HKHealthStore
     var sources = Set<HKSource>()
@@ -125,7 +151,7 @@ class peas_QuantityType {
         source.addToSource2logs(log)
         cd_Save()
     }
-    private func CD_updateLog(log: peas_Sample) ->Log {
+    internal func CD_updateLog(log: peas_Sample) ->Log {
         let cd_Log = Log(context: moc)
         cd_Log.timeStamp = log.timeStamp
         cd_Log.uuid = UUID()
@@ -177,7 +203,7 @@ class peas_QuantityType {
         return result
     }
     internal func getStatistics() -> Void {
-        var querySampler = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit)
+        StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit).cloudWriter = self
         return
         var interval = DateComponents()
         interval.hour = 2
