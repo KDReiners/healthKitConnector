@@ -171,7 +171,7 @@ class peas_QuantityTypes: ObservableObject {
         var dateTo: Date
         var rangeFrom: Double
         var rangeTo: Double
-        var sampleCount: Int = 12
+        var sampleCount: Int = 1
         dateFrom = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date(), direction: .backward)!
         dateTo = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
         self.listOfQuantityTypes.forEach { type in

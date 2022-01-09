@@ -30,22 +30,30 @@ class peas_QuantityType: cloud_Delegate {
         let deviceInstance = HKDevice(name: "peas" , manufacturer: "Peas", model: "", hardwareVersion: "", firmwareVersion: "", softwareVersion: "", localIdentifier: "", udiDeviceIdentifier: "" )
         let sourceInstance = HKSource.default()
         let sourcRevision = HKSourceRevision(source: sourceInstance, version: "1.0")
-        let device = CD_updateDevices(device: deviceInstance)
-        let source = CD_updateSources(sourceRevision: sourcRevision)
+        guard let device = CD_updateDevices(device: deviceInstance) else {
+            print("Device is nil")
+            return
+        }
+        guard let source = CD_updateSources(sourceRevision: sourcRevision) else {
+            print("Source is nil")
+            return
+        }
         source.uuid = UUID()
-        device?.uuid = UUID()
+        device.uuid = UUID()
         queryResults.forEach { result in
             var logValue: Double = 0.00
             if result.averageQuantity != nil || result.sumQuantity != nil {
                 logValue = (result.averageQuantity == nil ? result.sumQuantity! : result.averageQuantity!)
             }
-            let cd_Log = Log(context: moc)
-            cd_Log.timeStamp = result.startDate
-            cd_Log.uuid = UUID()
-            cd_Log.value = logValue as NSNumber
-            cd_Log.log2quantitytype = quantityType
-            cd_Log.log2source = source
-            cd_Log.log2Device = device
+            if logValue != 0 {
+                let cd_Log = Log(context: moc)
+                cd_Log.timeStamp = result.startDate
+                cd_Log.uuid = UUID()
+                cd_Log.value = logValue as NSNumber
+                cd_Log.log2quantitytype = quantityType
+                cd_Log.log2source = source
+                cd_Log.log2Device = device
+            }
         }
         cd_Save()
     }
@@ -145,10 +153,10 @@ class peas_QuantityType: cloud_Delegate {
         let quantityType = CD_UpdateQuantityTypes(quantityType: sample.quantityType)
         let device = CD_updateDevices(device: sample.device)
         let log = CD_updateLog(log: sample)
-        source.addToSource2logs(log)
+        source!.addToSource2logs(log)
         quantityType.addToQuantitytype2logs(log)
         device?.addToDevice2Logs(log)
-        source.addToSource2logs(log)
+        source?.addToSource2logs(log)
         cd_Save()
     }
     internal func CD_updateLog(log: peas_Sample) ->Log {
@@ -174,8 +182,8 @@ class peas_QuantityType: cloud_Delegate {
         }
         return result
     }
-    private func CD_updateSources(sourceRevision: HKSourceRevision) -> Source {
-        var result: Source
+    private func CD_updateSources(sourceRevision: HKSourceRevision) -> Source? {
+        var result: Source?
         if let cd_Source = returnItemForAttributeOfEntity(entity: "Source", uniqueIdentity: sourceRevision.source.name, idAttributeName: "hk_name") {
             result = cd_Source as! Source
         }else {

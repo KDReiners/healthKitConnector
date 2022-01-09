@@ -18,7 +18,7 @@ internal class StatisticWriter {
     var preferredUnit: HKUnit
     var interval = DateComponents()
     let calendar = Calendar.current
-    let startDate = Date("2022-01-08")
+    let startDate = Date("2018-01-01")
     var anchorDate : Date
     internal var items : [QueryResult]
     
@@ -30,7 +30,6 @@ internal class StatisticWriter {
         self.anchorDate = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: startDate)!
         self.items = []
         gatherInformation(aggregationStyle: self.quantityType.aggregationStyle)
-        
     }
     internal struct QueryResult {
         var quantityType: HKQuantityType!
