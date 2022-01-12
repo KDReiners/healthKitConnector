@@ -40,7 +40,9 @@ class peas_QuantityType: cloud_Delegate {
         }
         source.uuid = UUID()
         device.uuid = UUID()
-        queryResults.forEach { result in
+        let unmutableResults = queryResults
+        unmutableResults.forEach { result in
+//            deleteLogsFromCloud(logs: returnQueryResult(queryResult: result))
             var logValue: Double = 0.00
             if result.averageQuantity != nil || result.sumQuantity != nil {
                 logValue = (result.averageQuantity == nil ? result.sumQuantity! : result.averageQuantity!)
@@ -78,6 +80,12 @@ class peas_QuantityType: cloud_Delegate {
             let newSample = peas_Sample(sourceRevision: sample.sourceRevision, device: sample.device, quantity: sample.quantity.doubleValue(for: self.preferredUnit), timeStamp: sample.startDate, quantityType: sample.quantityType)
             self.samples.append(newSample)
         }   
+    }
+    func deleteLogsFromCloud(logs: [NSManagedObject]?) {
+        guard let logs = logs else { return }
+        logs.forEach{ log in
+            moc.delete(log)
+        }
     }
     // MARK: - Interact with healthStore
     func upDateHealthData(completion: @escaping() -> Void) {
@@ -185,7 +193,7 @@ class peas_QuantityType: cloud_Delegate {
     private func CD_updateSources(sourceRevision: HKSourceRevision) -> Source? {
         var result: Source?
         if let cd_Source = returnItemForAttributeOfEntity(entity: "Source", uniqueIdentity: sourceRevision.source.name, idAttributeName: "hk_name") {
-            result = cd_Source as! Source
+            result = cd_Source as? Source
         }else {
             let cd_Source = Source(context: moc)
             cd_Source.hk_name = sourceRevision.source.name
@@ -238,6 +246,21 @@ class peas_QuantityType: cloud_Delegate {
         }
     }
     // MARK: Helpers
+    func returnQueryResult(queryResult: StatisticWriter.QueryResult) -> [NSManagedObject]? {
+        let quantityType = queryResult.quantityType
+        let timeStamp = queryResult.startDate
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Log")
+        fetchRequest.returnsDistinctResults = true
+        fetchRequest.predicate = NSPredicate(format: "timeStamp = %@ AND ANY log2quantitytype.hk_quantitytype = %@" , timeStamp! as CVarArg, quantityType!)
+        var results: [NSManagedObject] = []
+        do {
+            results = try moc.fetch(fetchRequest)
+        }
+        catch {
+            print("error    executing fetch request: \(error)")
+        }
+       return results
+    }
     func returnItemForAttributeOfEntity(entity: String, uniqueIdentity: String,idAttributeName:String, idDate: Date? = nil, quantityType: peas_QuantityType? = nil) -> NSManagedObject? {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entity)
         fetchRequest.returnsDistinctResults = true

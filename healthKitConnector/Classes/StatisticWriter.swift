@@ -18,7 +18,8 @@ internal class StatisticWriter {
     var preferredUnit: HKUnit
     var interval = DateComponents()
     let calendar = Calendar.current
-    let startDate = Date("2018-01-01")
+    let startDate = Date("2017-01-01")
+    let endDate = Date("2018-12-31")
     var anchorDate : Date
     internal var items : [QueryResult]
     
@@ -63,11 +64,26 @@ internal class StatisticWriter {
         let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage]
         let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
         query.initialResultsHandler = { query, results, error in
-            results?.enumerateStatistics(from: self.startDate, to: Date(), with: {
+            results?.enumerateStatistics(from: self.startDate, to: self.endDate, with: {
                 (result, stop) in
                 let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
                 self.items.append(item)
             })
+            if self.items.count > 0 {
+                self.cloudWriter?.storeInCloud(queryResults: self.items)
+            }
+        }
+        query.statisticsUpdateHandler = { query, statistics, results, error in
+            print("In statisticsUpdateHandler...")
+            guard let results = results else {
+                print("No results")
+                return
+            }
+            self.items.removeAll()
+            results.enumerateStatistics(from: self.startDate, to: Date()) { result, stop in
+                let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
+                self.items.append(item)
+            }
             self.cloudWriter?.storeInCloud(queryResults: self.items)
         }
         healthStore.execute(query)
