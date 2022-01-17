@@ -76,15 +76,16 @@ struct SourcesPicker: View {
     @FetchRequest(entity: Source.entity(), sortDescriptors: []) var sources: FetchedResults<Source>
     @State var currentLog: Log
     var body: some View {
-        Picker("", selection: $currentLog.log2source) {
-            ForEach(sources, id: \.self) { source in
-                Text(source.hk_name ?? "").tag(source as Source?)
-            }
-        }
-        .onChange(of: currentLog.log2source, perform: { (value) in
-                                    pickerChanged()
-            
-        })
+        Text("Test")
+//        Picker("", selection: $currentLog.log2source) {
+//            ForEach(sources, id: \.self) { source in
+//                Text(source.hk_name ?? "").tag(source as Source?)
+//            }
+//        }
+//        .onChange(of: currentLog.log2source, perform: { (value) in
+//                                    pickerChanged()
+//
+//        })
     }
     func pickerChanged() {
         try? moc.save()

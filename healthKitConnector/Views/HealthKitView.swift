@@ -54,6 +54,7 @@ struct HealthKitView: View {
         bo.fetchAllHealthData()
     }
     func getStatistics() -> Void {
+//        bo.listOfQuantityTypes["HKQuantityTypeIdentifierHeartRate"]?.getStatistics()
         bo.listOfQuantityTypes.forEach { quantityType in
             quantityType.value.getStatistics()
         }

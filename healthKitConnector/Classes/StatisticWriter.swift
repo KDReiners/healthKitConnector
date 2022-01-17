@@ -10,6 +10,7 @@ import HealthKit
 import CoreData
 protocol cloud_Delegate: AnyObject {
     func storeInCloud(queryResults: [StatisticWriter.QueryResult])
+    func fetchOutdatedLogs(queryResults: [StatisticWriter.QueryResult])
 }
 internal class StatisticWriter {
     var healthStore: HKHealthStore
@@ -19,7 +20,7 @@ internal class StatisticWriter {
     var interval = DateComponents()
     let calendar = Calendar.current
     let startDate = Date("2017-01-01")
-    let endDate = Date("2018-12-31")
+    let endDate = Date("2018-03-31")
     var anchorDate : Date
     internal var items : [QueryResult]
     
@@ -30,7 +31,6 @@ internal class StatisticWriter {
         self.interval.hour = 1
         self.anchorDate = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: startDate)!
         self.items = []
-        gatherInformation(aggregationStyle: self.quantityType.aggregationStyle)
     }
     internal struct QueryResult {
         var quantityType: HKQuantityType!
@@ -51,7 +51,7 @@ internal class StatisticWriter {
             if hkStatistics.quantityType.aggregationStyle == .cumulative {
                 sumQuantity = hkStatistics.sumQuantity()?.doubleValue(for: preferredUnit) ?? 0
             }
-            if hkStatistics.quantityType.aggregationStyle == .discreteArithmetic {
+            if hkStatistics.quantityType.aggregationStyle == .discreteArithmetic || hkStatistics.quantityType == HKObjectType.quantityType(forIdentifier: .heartRate) {
                 averageQuantity = hkStatistics.averageQuantity()?.doubleValue(for: preferredUnit) ?? 0
                 minimumQuantity = hkStatistics.minimumQuantity()?.doubleValue(for: preferredUnit) ?? 0
                 maximumQuantity = hkStatistics.maximumQuantity()?.doubleValue(for: preferredUnit) ?? 0
@@ -60,18 +60,22 @@ internal class StatisticWriter {
             }
         }
     }
-    internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle) ->Void {
+    internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle) -> Void  {
+        print("Statistic: \(self.quantityType)")
         let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage]
         let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
         query.initialResultsHandler = { query, results, error in
             results?.enumerateStatistics(from: self.startDate, to: self.endDate, with: {
                 (result, stop) in
-                let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
-                self.items.append(item)
+                if result.quantityType == self.quantityType {
+                    let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
+                    self.items.append(item)
+                }
+                else {
+                    print("Something went wrong")
+                }
             })
-            if self.items.count > 0 {
-                self.cloudWriter?.storeInCloud(queryResults: self.items)
-            }
+            self.cloudWriter?.storeInCloud(queryResults: self.items)
         }
         query.statisticsUpdateHandler = { query, statistics, results, error in
             print("In statisticsUpdateHandler...")
@@ -81,8 +85,13 @@ internal class StatisticWriter {
             }
             self.items.removeAll()
             results.enumerateStatistics(from: self.startDate, to: Date()) { result, stop in
-                let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
-                self.items.append(item)
+                if result.quantityType == self.quantityType {
+                    let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
+                    self.items.append(item)
+                }
+                else {
+                    print("Something went wrong")
+                }
             }
             self.cloudWriter?.storeInCloud(queryResults: self.items)
         }

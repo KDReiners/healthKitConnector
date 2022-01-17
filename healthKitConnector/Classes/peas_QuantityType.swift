@@ -25,24 +25,57 @@ class peas_Sample {
     }
 }
 class peas_QuantityType: cloud_Delegate {
+    var outdatedLogs = [NSManagedObject]()
+    var quantityType: HKQuantityType
+    var healthStore: HKHealthStore
+    var sources = Set<HKSource>()
+    var devices = Set<String>()
+    var samples = Array<peas_Sample>()
+    var preferredUnit: HKUnit
+    var moc: NSManagedObjectContext
+    var options: HKStatisticsOptions
+    
+    init (quantityType: HKQuantityType, preferredUnit: HKUnit, healthStore: HKHealthStore) {
+        self.quantityType = quantityType
+        self.healthStore = healthStore
+        self.preferredUnit  = preferredUnit
+        self.options = peas_QuantityTypes.statiticDictionary[quantityType]!
+        self.moc = PersistenceController.shared.cloudContainer.viewContext
+    }
+    
+    func fetchOutdatedLogs(queryResults: [StatisticWriter.QueryResult]) {
+        print("Statistic: \(self.quantityType)")
+        queryResults.forEach { result in
+            if result.sumQuantity ?? 0 > 0 || result.averageQuantity ?? 0 > 0 {
+                let candidates = returnQueryResult(queryResult: result)
+                candidates?.forEach { candidate in
+                    if candidate.value(forKeyPath: "log2quantitytype.hk_quantitytype") != nil {
+                        if candidate.value(forKeyPath: "log2quantitytype.hk_quantitytype") as! String == self.quantityType.identifier {
+                            outdatedLogs.append(candidate)
+                        }
+                    }
+                    else {
+                        print("Warumg ist das so")
+                    }
+                }
+            }
+        }
+    }
     func storeInCloud(queryResults: [StatisticWriter.QueryResult]) {
+        fetchOutdatedLogs(queryResults: queryResults)
+        deleteLogsFromCloud(logs: outdatedLogs)
         let quantityType = CD_UpdateQuantityTypes(quantityType: self.quantityType)
         let deviceInstance = HKDevice(name: "peas" , manufacturer: "Peas", model: "", hardwareVersion: "", firmwareVersion: "", softwareVersion: "", localIdentifier: "", udiDeviceIdentifier: "" )
         let sourceInstance = HKSource.default()
         let sourcRevision = HKSourceRevision(source: sourceInstance, version: "1.0")
         guard let device = CD_updateDevices(device: deviceInstance) else {
-            print("Device is nil")
             return
         }
         guard let source = CD_updateSources(sourceRevision: sourcRevision) else {
-            print("Source is nil")
             return
         }
-        source.uuid = UUID()
-        device.uuid = UUID()
-        let unmutableResults = queryResults
-        unmutableResults.forEach { result in
-//            deleteLogsFromCloud(logs: returnQueryResult(queryResult: result))
+        print("Durchgelaufen")
+        queryResults.forEach { result in
             var logValue: Double = 0.00
             if result.averageQuantity != nil || result.sumQuantity != nil {
                 logValue = (result.averageQuantity == nil ? result.sumQuantity! : result.averageQuantity!)
@@ -58,22 +91,6 @@ class peas_QuantityType: cloud_Delegate {
             }
         }
         cd_Save()
-    }
-    
-    var quantityType: HKQuantityType
-    var healthStore: HKHealthStore
-    var sources = Set<HKSource>()
-    var devices = Set<String>()
-    var samples = Array<peas_Sample>()
-    var preferredUnit: HKUnit
-    var moc: NSManagedObjectContext
-    var options: HKStatisticsOptions
-    init (quantityType: HKQuantityType, preferredUnit: HKUnit, healthStore: HKHealthStore) {
-        self.quantityType = quantityType
-        self.healthStore = healthStore
-        self.preferredUnit  = preferredUnit
-        self.options = peas_QuantityTypes.statiticDictionary[quantityType]!
-        self.moc = PersistenceController.shared.cloudContainer.viewContext
     }
     fileprivate func storeSamples(_ samples: [HKQuantitySample]) {
         samples.forEach { sample in
@@ -148,9 +165,11 @@ class peas_QuantityType: cloud_Delegate {
     }
 
     // MARK: - Interact with coreData
-    fileprivate func cd_Save() {
+    func cd_Save() {
         do {
-            try moc.save()
+            if moc.hasChanges {
+                try moc.save()
+            }
         } catch {
             fatalError("Failure to save context: \(error)")
         }
@@ -218,40 +237,17 @@ class peas_QuantityType: cloud_Delegate {
         }
         return result
     }
-    internal func getStatistics() -> Void {
-        StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit).cloudWriter = self
-        return
-        var interval = DateComponents()
-        interval.hour = 2
-        let calendar = Calendar.current
-        let startDate = Date("2021-12-30")
-        let anchorDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: startDate)
-        if quantityType == HKObjectType.quantityType(forIdentifier: .bloodGlucose) {
-            guard let queryOption = peas_QuantityTypes.statiticDictionary[quantityType] else {
-                fatalError()
-            }
-            let query = HKStatisticsCollectionQuery.init(quantityType: quantityType,
-                                                         quantitySamplePredicate: nil,
-                                                         options: queryOption,
-                                                         anchorDate: anchorDate!,
-                                                         intervalComponents: interval)
-            query.initialResultsHandler = {
-                query, results, error in
-    
-                results?.enumerateStatistics(from: startDate, to: Date(), with: { (result, stop) in
-                    print("Type: \(self.quantityType) Time: \(result.startDate), \(result.minimumQuantity()?.doubleValue(for: self.preferredUnit) ?? 0)")
-                    })
-                }
-                healthStore.execute(query)
-        }
+    internal func getStatistics() {
+        let statisticWriter = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit)
+        statisticWriter.cloudWriter = self
+        statisticWriter.gatherInformation(aggregationStyle: self.quantityType.aggregationStyle)
     }
     // MARK: Helpers
     func returnQueryResult(queryResult: StatisticWriter.QueryResult) -> [NSManagedObject]? {
         let quantityType = queryResult.quantityType
         let timeStamp = queryResult.startDate
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Log")
-        fetchRequest.returnsDistinctResults = true
-        fetchRequest.predicate = NSPredicate(format: "timeStamp = %@ AND ANY log2quantitytype.hk_quantitytype = %@" , timeStamp! as CVarArg, quantityType!)
+        fetchRequest.predicate = NSPredicate(format: "timeStamp = %@ AND log2quantitytype.hk_quantitytype = %@" , timeStamp! as NSDate, quantityType!)
         var results: [NSManagedObject] = []
         do {
             results = try moc.fetch(fetchRequest)
@@ -263,7 +259,6 @@ class peas_QuantityType: cloud_Delegate {
     }
     func returnItemForAttributeOfEntity(entity: String, uniqueIdentity: String,idAttributeName:String, idDate: Date? = nil, quantityType: peas_QuantityType? = nil) -> NSManagedObject? {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entity)
-        fetchRequest.returnsDistinctResults = true
         if entity != "Log" {
             fetchRequest.predicate = NSPredicate(format: "\(idAttributeName) =  %@", uniqueIdentity)
         }
@@ -280,7 +275,7 @@ class peas_QuantityType: cloud_Delegate {
         catch {
             print("error    executing fetch request: \(error)")
         }
-        if results.count>1 {
+        if results.count > 1 {
             fatalError("Duplicated item at entity: \(entity)")
         }
         if results.count == 1 {
