@@ -29,12 +29,7 @@ struct MainView: View {
                     Label("Messgrössen", systemImage: "gauge")
                 }
         }.onAppear() {
-            let group = DispatchGroup()
-            group.enter()
-            bo.syncLoadTasks() {
-                group.leave()
-            }
-            group.wait()
+            bo.syncLoadTasks() 
         }
     }
 }

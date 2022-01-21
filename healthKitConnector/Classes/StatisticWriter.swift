@@ -8,6 +8,7 @@
 import Foundation
 import HealthKit
 import CoreData
+import SwiftUI
 protocol cloud_Delegate: AnyObject {
     func storeInCloud(queryResults: [StatisticWriter.QueryResult])
     func fetchOutdatedLogs(queryResults: [StatisticWriter.QueryResult])
@@ -19,8 +20,8 @@ internal class StatisticWriter {
     var preferredUnit: HKUnit
     var interval = DateComponents()
     let calendar = Calendar.current
-    let startDate = Date("2017-01-01")
-    let endDate = Date("2018-03-31")
+    let startDate = Date("2022-01-01")
+    let endDate = Date("2022-01-31")
     var anchorDate : Date
     internal var items : [QueryResult]
     
@@ -60,8 +61,8 @@ internal class StatisticWriter {
             }
         }
     }
-    internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle) -> Void  {
-        print("Statistic: \(self.quantityType)")
+internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, completion: @escaping() -> Void) -> Void  {
+        print("Called gatherInformation for: \(self.quantityType)")
         let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage]
         let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
         query.initialResultsHandler = { query, results, error in
@@ -76,6 +77,8 @@ internal class StatisticWriter {
                 }
             })
             self.cloudWriter?.storeInCloud(queryResults: self.items)
+            print("completion from initialResultHandler")
+            completion()
         }
         query.statisticsUpdateHandler = { query, statistics, results, error in
             print("In statisticsUpdateHandler...")
@@ -94,6 +97,7 @@ internal class StatisticWriter {
                 }
             }
             self.cloudWriter?.storeInCloud(queryResults: self.items)
+            print("NO completion from statisticUpdateHandler")
         }
         healthStore.execute(query)
     }

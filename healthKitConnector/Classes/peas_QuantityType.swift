@@ -34,6 +34,13 @@ class peas_QuantityType: cloud_Delegate {
     var preferredUnit: HKUnit
     var moc: NSManagedObjectContext
     var options: HKStatisticsOptions
+    var cd_QuantityType: Quantitytype?
+    var cd_Source: Source?
+    var cd_Device: Device?
+    internal var createTestData: Bool = false
+    let deviceInstance = HKDevice(name: "peas" , manufacturer: "Peas", model: "", hardwareVersion: "", firmwareVersion: "", softwareVersion: "", localIdentifier: "", udiDeviceIdentifier: "" )
+    
+    
     
     init (quantityType: HKQuantityType, preferredUnit: HKUnit, healthStore: HKHealthStore) {
         self.quantityType = quantityType
@@ -41,10 +48,12 @@ class peas_QuantityType: cloud_Delegate {
         self.preferredUnit  = preferredUnit
         self.options = peas_QuantityTypes.statiticDictionary[quantityType]!
         self.moc = PersistenceController.shared.cloudContainer.viewContext
+        self.cd_QuantityType = CD_UpdateQuantityTypes(quantityType: self.quantityType)
+        self.cd_Device = CD_updateDevices(device: deviceInstance )
+        self.cd_Source = CD_updateSources(sourceRevision: HKSourceRevision(source: HKSource.default(), version: "1.0"))
     }
-    
     func fetchOutdatedLogs(queryResults: [StatisticWriter.QueryResult]) {
-        print("Statistic: \(self.quantityType)")
+        print("Called fetchOutdatedLogs: \(self.quantityType)")
         queryResults.forEach { result in
             if result.sumQuantity ?? 0 > 0 || result.averageQuantity ?? 0 > 0 {
                 let candidates = returnQueryResult(queryResult: result)
@@ -62,41 +71,33 @@ class peas_QuantityType: cloud_Delegate {
         }
     }
     func storeInCloud(queryResults: [StatisticWriter.QueryResult]) {
+        print("Called storeInCloud for: \(self.quantityType)")
         fetchOutdatedLogs(queryResults: queryResults)
         deleteLogsFromCloud(logs: outdatedLogs)
-        let quantityType = CD_UpdateQuantityTypes(quantityType: self.quantityType)
-        let deviceInstance = HKDevice(name: "peas" , manufacturer: "Peas", model: "", hardwareVersion: "", firmwareVersion: "", softwareVersion: "", localIdentifier: "", udiDeviceIdentifier: "" )
-        let sourceInstance = HKSource.default()
-        let sourcRevision = HKSourceRevision(source: sourceInstance, version: "1.0")
-        guard let device = CD_updateDevices(device: deviceInstance) else {
-            return
-        }
-        guard let source = CD_updateSources(sourceRevision: sourcRevision) else {
-            return
-        }
-        print("Durchgelaufen")
         queryResults.forEach { result in
             var logValue: Double = 0.00
             if result.averageQuantity != nil || result.sumQuantity != nil {
                 logValue = (result.averageQuantity == nil ? result.sumQuantity! : result.averageQuantity!)
             }
             if logValue != 0 {
-                let cd_Log = Log(context: moc)
+                var cd_Log = Log(context: moc)
                 cd_Log.timeStamp = result.startDate
                 cd_Log.uuid = UUID()
                 cd_Log.value = logValue as NSNumber
-                cd_Log.log2quantitytype = quantityType
-                cd_Log.log2source = source
-                cd_Log.log2Device = device
+                cd_Log.log2quantitytype = cd_QuantityType
+                cd_Log.log2source = cd_Source
+                cd_Log.log2Device = cd_Device
+//                cd_Save()
             }
         }
-        cd_Save()
     }
     fileprivate func storeSamples(_ samples: [HKQuantitySample]) {
+        createTestData = true
         samples.forEach { sample in
             let newSample = peas_Sample(sourceRevision: sample.sourceRevision, device: sample.device, quantity: sample.quantity.doubleValue(for: self.preferredUnit), timeStamp: sample.startDate, quantityType: sample.quantityType)
             self.samples.append(newSample)
-        }   
+        }
+        createTestData = false
     }
     func deleteLogsFromCloud(logs: [NSManagedObject]?) {
         guard let logs = logs else { return }
@@ -237,10 +238,17 @@ class peas_QuantityType: cloud_Delegate {
         }
         return result
     }
-    internal func getStatistics() {
-        let statisticWriter = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit)
-        statisticWriter.cloudWriter = self
-        statisticWriter.gatherInformation(aggregationStyle: self.quantityType.aggregationStyle)
+    internal func getStatistics(completion: @escaping() -> Void) {
+        if createTestData == false {
+            let statisticWriter = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit)
+            statisticWriter.cloudWriter = self
+            statisticWriter.gatherInformation(aggregationStyle: self.quantityType.aggregationStyle) {
+                completion()
+            }
+        }
+        else {
+            completion()
+        }
     }
     // MARK: Helpers
     func returnQueryResult(queryResult: StatisticWriter.QueryResult) -> [NSManagedObject]? {

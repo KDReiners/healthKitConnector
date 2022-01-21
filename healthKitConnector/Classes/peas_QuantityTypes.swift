@@ -68,11 +68,9 @@ class peas_QuantityTypes: ObservableObject {
         }
         
     }
-    func syncLoadTasks(completion: @escaping() -> Void) {
-        if isAllowed() {
+    func syncLoadTasks() {
+        isAllowed(completion: { result in
             let preferredUnits = DispatchQueue.global(qos: .default)
-            let group=DispatchGroup()
-            group.enter()
             preferredUnits.async { [self] in
                 healthStore.preferredUnits(for: readData, completion: { (results, error) in
                     addQuantityType(results: results, Error: error)
@@ -82,34 +80,14 @@ class peas_QuantityTypes: ObservableObject {
                         let qt: peas_QuantityType = peas_QuantityType(quantityType: $0, preferredUnit: results[$0]!, healthStore: healthStore)
                             listOfQuantityTypes[$0.identifier] = qt
                     }
-                    group.leave()
                 }
             }
-            group.wait()
-            completion()
-        } else {
-            Alert(
-                title: Text("Fehler Setup"),
-                message: Text("Der Zugriff auf den Healthstore ist nicht möglich."),
-                dismissButton: .default(Text("Verstanden"))
-            )
-        }
+        })
     }
-    func isAllowed() ->Bool {
-        let group = DispatchGroup()
-        var result: Bool = false
-        group.enter()
+    func isAllowed(completion: @escaping((_ success: Bool) -> Void)) {
         healthStore.requestAuthorization(toShare: writeData, read: readData) { (success, error) in
-            result = success
-            group.leave()
+            completion(success)
         }
-        group.wait()
-        if result == false {
-            healthStore.requestAuthorization(toShare: writeData, read: readData) { (success, error) in
-                result = success
-            }
-        }
-        return result
     }
     func fetchAllHealthData()->Void {
         let group = DispatchGroup()
@@ -122,28 +100,22 @@ class peas_QuantityTypes: ObservableObject {
         group.wait()
     }
     func getStatistics() -> Void {
-        for (_, peas_quantityType) in listOfQuantityTypes {
-            if peas_quantityType.quantityType == HKObjectType.quantityType(forIdentifier: .basalEnergyBurned) {
-                var interval = DateComponents()
-                interval.day = 1
-                let calendar = Calendar.current
-                let startDate = Date("2018-01-01")
-                let anchorDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: startDate)
-
-                let query = HKStatisticsCollectionQuery.init(quantityType: peas_quantityType.quantityType,
-                                                             quantitySamplePredicate: nil,
-                                                             options: .cumulativeSum,
-                                                             anchorDate: anchorDate!,
-                                                             intervalComponents: interval)
-                query.initialResultsHandler = {
-                    query, results, error in
-                    results?.enumerateStatistics(from: startDate, to: Date(), with: { (result, stop) in
-                        print("Time: \(result.startDate), \(result.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie()) ?? 0)")
-                        })
-                    }
-                    healthStore.execute(query)
-                }
-            
+        let group = DispatchGroup()
+        listOfQuantityTypes.forEach { quantityType in
+            print("Called getStatistics for: \(quantityType.key)")
+            group.enter()
+            quantityType.value.getStatistics() {
+                print("********** End **********")
+                print("")
+                group.leave()
+            }
+            group.wait()
+            do {
+                try self.moc.save()
+            }
+            catch {
+                fatalError("Failure to save context: \(error)")
+            }
         }
     }
 
@@ -184,7 +156,6 @@ class peas_QuantityTypes: ObservableObject {
                     writeQuantitySample(type: type.value.quantityType, quantity: quantity, start: entryDateFrom, end: entryDateFrom,  metaData: [:] )
                 }
         }
-        
     }
     func writeQuantitySample(type: HKQuantityType, quantity: HKQuantity, start: Date, end: Date, metaData:[String: Any]? ) {
         let deviceName = String(format: "%@_device", type.identifier)
