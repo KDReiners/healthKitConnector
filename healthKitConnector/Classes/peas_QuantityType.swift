@@ -37,7 +37,7 @@ class peas_QuantityType: cloud_Delegate {
     var cd_QuantityType: Quantitytype?
     var cd_Source: Source?
     var cd_Device: Device?
-    internal var createTestData: Bool = false
+    var createTestData: Bool = false
     let deviceInstance = HKDevice(name: "peas" , manufacturer: "Peas", model: "", hardwareVersion: "", firmwareVersion: "", softwareVersion: "", localIdentifier: "", udiDeviceIdentifier: "" )
     
     
@@ -51,6 +51,7 @@ class peas_QuantityType: cloud_Delegate {
         self.cd_QuantityType = CD_UpdateQuantityTypes(quantityType: self.quantityType)
         self.cd_Device = CD_updateDevices(device: deviceInstance )
         self.cd_Source = CD_updateSources(sourceRevision: HKSourceRevision(source: HKSource.default(), version: "1.0"))
+        self.createTestData = false
     }
     func fetchOutdatedLogs(queryResults: [StatisticWriter.QueryResult]) {
         print("Called fetchOutdatedLogs: \(self.quantityType)")
@@ -72,7 +73,7 @@ class peas_QuantityType: cloud_Delegate {
     }
     func storeInCloud(queryResults: [StatisticWriter.QueryResult]) {
         print("Called storeInCloud for: \(self.quantityType)")
-        fetchOutdatedLogs(queryResults: queryResults)
+//        fetchOutdatedLogs(queryResults: queryResults)
         deleteLogsFromCloud(logs: outdatedLogs)
         queryResults.forEach { result in
             var logValue: Double = 0.00
@@ -80,14 +81,17 @@ class peas_QuantityType: cloud_Delegate {
                 logValue = (result.averageQuantity == nil ? result.sumQuantity! : result.averageQuantity!)
             }
             if logValue != 0 {
-                var cd_Log = Log(context: moc)
+                let cd_Log = Log(context: moc)
                 cd_Log.timeStamp = result.startDate
                 cd_Log.uuid = UUID()
-                cd_Log.value = logValue as NSNumber
+                cd_Log.value = logValue
+                cd_Log.maxValue = result.maximumQuantity!
+                cd_Log.minValue = result.minimumQuantity!
+                cd_Log.mostRecentValue = result.mostRecentQuantity!
+//                cd_Log.mostRecentTimeInterval = result.mostRecentQuantityDateInterval
                 cd_Log.log2quantitytype = cd_QuantityType
                 cd_Log.log2source = cd_Source
                 cd_Log.log2Device = cd_Device
-//                cd_Save()
             }
         }
     }
@@ -119,7 +123,7 @@ class peas_QuantityType: cloud_Delegate {
         let startDate = Date("2018-01-07")
         let endDate = Date("2018-12-31")
         
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions.strictEndDate)
+        _ = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions.strictEndDate)
         let query = HKAnchoredObjectQuery(type: self.quantityType,
                                           predicate: nil,
                                           anchor: anchor,
@@ -191,7 +195,7 @@ class peas_QuantityType: cloud_Delegate {
         let cd_Log = Log(context: moc)
         cd_Log.timeStamp = log.timeStamp
         cd_Log.uuid = UUID()
-        cd_Log.value = log.quantity as NSNumber
+        cd_Log.value = log.quantity
         cd_Save()
         return cd_Log
     }
@@ -231,7 +235,6 @@ class peas_QuantityType: cloud_Delegate {
             let cd_QuantityType = Quantitytype(context: moc)
             cd_QuantityType.hk_quantitytype = quantityType.identifier
             cd_QuantityType.uuid = UUID()
-            cd_QuantityType.delay = 0
             cd_QuantityType.preferredUnit = self.preferredUnit.unitString
             cd_Save()
             result = cd_QuantityType

@@ -12,6 +12,7 @@ import SwiftUI
 protocol cloud_Delegate: AnyObject {
     func storeInCloud(queryResults: [StatisticWriter.QueryResult])
     func fetchOutdatedLogs(queryResults: [StatisticWriter.QueryResult])
+    var createTestData: Bool { get  }
 }
 internal class StatisticWriter {
     var healthStore: HKHealthStore
@@ -20,8 +21,8 @@ internal class StatisticWriter {
     var preferredUnit: HKUnit
     var interval = DateComponents()
     let calendar = Calendar.current
-    let startDate = Date("2022-01-01")
-    let endDate = Date("2022-01-31")
+    let startDate = Date("2018-01-01")
+    let endDate = Date("2018-12-31")
     var anchorDate : Date
     internal var items : [QueryResult]
     
@@ -49,22 +50,18 @@ internal class StatisticWriter {
             startDate = hkStatistics.startDate
             endDate = hkStatistics.endDate
             quantityType = hkStatistics.quantityType
-            if hkStatistics.quantityType.aggregationStyle == .cumulative {
-                sumQuantity = hkStatistics.sumQuantity()?.doubleValue(for: preferredUnit) ?? 0
-            }
-            if hkStatistics.quantityType.aggregationStyle == .discreteArithmetic || hkStatistics.quantityType == HKObjectType.quantityType(forIdentifier: .heartRate) {
-                averageQuantity = hkStatistics.averageQuantity()?.doubleValue(for: preferredUnit) ?? 0
-                minimumQuantity = hkStatistics.minimumQuantity()?.doubleValue(for: preferredUnit) ?? 0
-                maximumQuantity = hkStatistics.maximumQuantity()?.doubleValue(for: preferredUnit) ?? 0
-                mostRecentQuantity = hkStatistics.mostRecentQuantity()?.doubleValue(for: preferredUnit) ?? 0
-                mostRecentQuantityDateInterval = hkStatistics.mostRecentQuantityDateInterval()
-            }
+            sumQuantity = hkStatistics.sumQuantity()?.doubleValue(for: preferredUnit) ?? 0
+            averageQuantity = hkStatistics.averageQuantity()?.doubleValue(for: preferredUnit) ?? 0
+            minimumQuantity = hkStatistics.minimumQuantity()?.doubleValue(for: preferredUnit) ?? 0
+            maximumQuantity = hkStatistics.maximumQuantity()?.doubleValue(for: preferredUnit) ?? 0
+            mostRecentQuantity = hkStatistics.mostRecentQuantity()?.doubleValue(for: preferredUnit) ?? 0
+            mostRecentQuantityDateInterval = hkStatistics.mostRecentQuantityDateInterval()
         }
     }
 internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, completion: @escaping() -> Void) -> Void  {
         print("Called gatherInformation for: \(self.quantityType)")
-        let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage]
-        let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
+    let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage, .discreteMin, .discreteMax, .mostRecent]
+    let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
         query.initialResultsHandler = { query, results, error in
             results?.enumerateStatistics(from: self.startDate, to: self.endDate, with: {
                 (result, stop) in
@@ -76,7 +73,7 @@ internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, co
                     print("Something went wrong")
                 }
             })
-            self.cloudWriter?.storeInCloud(queryResults: self.items)
+            self.cloudWriter!.storeInCloud(queryResults: self.items)
             print("completion from initialResultHandler")
             completion()
         }
@@ -96,9 +93,13 @@ internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, co
                     print("Something went wrong")
                 }
             }
-            self.cloudWriter?.storeInCloud(queryResults: self.items)
+            self.cloudWriter!.storeInCloud(queryResults: self.items)
             print("NO completion from statisticUpdateHandler")
         }
-        healthStore.execute(query)
+        if !self.cloudWriter!.createTestData {
+            healthStore.execute(query)
+        } else {
+            print("do not update while creating testdata!")
+        }
     }
 }

@@ -2,7 +2,7 @@
 //  Quantitytype+CoreDataProperties.swift
 //  
 //
-//  Created by Klaus-Dieter Reiners on 20.11.21.
+//  Created by Klaus-Dieter Reiners on 22.01.22.
 //
 //
 
@@ -16,13 +16,11 @@ extension Quantitytype {
         return NSFetchRequest<Quantitytype>(entityName: "Quantitytype")
     }
 
-    @NSManaged public var delay: Int16
     @NSManaged public var hk_quantitytype: String?
-    @NSManaged public var uuid: UUID?
-    @NSManaged public var preferredUnit: String?
     @NSManaged public var friendlyname: String?
-    @NSManaged public var rangefrom: Int16
-    @NSManaged public var rangeto: Int16
+    @NSManaged public var preferredUnit: String?
+    @NSManaged public var uuid: UUID?
+    @NSManaged public var showInUI: Bool
     @NSManaged public var quantitytype2logs: NSSet?
 
 }

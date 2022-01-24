@@ -17,20 +17,20 @@
 		2D5A8106263DB6D3002899B9 /* peas_QuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5A8105263DB6D3002899B9 /* peas_QuantityType.swift */; };
 		2D5B821526230B6600BFFE19 /* ListQuantityTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B821426230B6600BFFE19 /* ListQuantityTypes.swift */; };
 		2D5DCB4A274982F60018B73F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB49274982F60018B73F /* Persistence.swift */; };
-		2D5DCB562749856A0018B73F /* Quantitytype+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4C274985690018B73F /* Quantitytype+CoreDataClass.swift */; };
 		2D5DCB572749856A0018B73F /* Log+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */; };
 		2D5DCB592749856A0018B73F /* Source+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */; };
 		2D5DCB5A2749856A0018B73F /* Source+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */; };
-		2D5DCB5B2749856A0018B73F /* Quantitytype+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB512749856A0018B73F /* Quantitytype+CoreDataProperties.swift */; };
 		2D5DCB5C2749856A0018B73F /* Log+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB522749856A0018B73F /* Log+CoreDataClass.swift */; };
 		2D5DCB5D2749856A0018B73F /* Device+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB532749856A0018B73F /* Device+CoreDataClass.swift */; };
 		2D5DCB5E2749856A0018B73F /* Device+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB542749856A0018B73F /* Device+CoreDataProperties.swift */; };
 		2D5DCB62274994170018B73F /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB61274994170018B73F /* extensions.swift */; };
 		2DAA436E26503C760043F2A4 /* peas_QuantityTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA436D26503C750043F2A4 /* peas_QuantityTypes.swift */; };
-		2DBA088927778C510020BCC9 /* healthKitConnector.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA088727778C510020BCC9 /* healthKitConnector.xcdatamodeld */; };
 		2DBA08A22780E2A00020BCC9 /* StatisticWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA08A12780E29F0020BCC9 /* StatisticWriter.swift */; };
 		2DC61A4B2607C15100AF2721 /* ListSourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D44EEF12607B1EB00A29E48 /* ListSourcesView.swift */; };
 		2DD32AB7260BCE9300B2F22A /* ListLogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD32AB6260BCE9300B2F22A /* ListLogsView.swift */; };
+		2DD784E5279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD784E3279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift */; };
+		2DD784E6279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD784E4279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift */; };
+		2DD7850F279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DD7850D279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,19 +52,19 @@
 		2D5A8105263DB6D3002899B9 /* peas_QuantityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peas_QuantityType.swift; sourceTree = "<group>"; };
 		2D5B821426230B6600BFFE19 /* ListQuantityTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListQuantityTypes.swift; sourceTree = "<group>"; };
 		2D5DCB49274982F60018B73F /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		2D5DCB4C274985690018B73F /* Quantitytype+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Log+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Source+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Source+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2D5DCB512749856A0018B73F /* Quantitytype+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2D5DCB522749856A0018B73F /* Log+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Log+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2D5DCB532749856A0018B73F /* Device+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Device+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2D5DCB542749856A0018B73F /* Device+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Device+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2D5DCB61274994170018B73F /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		2DAA436D26503C750043F2A4 /* peas_QuantityTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peas_QuantityTypes.swift; sourceTree = "<group>"; };
-		2DBA088827778C510020BCC9 /* healthKitConnector.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = healthKitConnector.xcdatamodel; sourceTree = "<group>"; };
 		2DBA08A12780E29F0020BCC9 /* StatisticWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticWriter.swift; sourceTree = "<group>"; };
 		2DD32AB6260BCE9300B2F22A /* ListLogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLogsView.swift; sourceTree = "<group>"; };
+		2DD784E3279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2DD784E4279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2DD7850E279DA41D00B6DA63 /* healthKitConnector.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = healthKitConnector.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,13 +162,13 @@
 		2DC61A672607C2AB00AF2721 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				2DBA088727778C510020BCC9 /* healthKitConnector.xcdatamodeld */,
+				2DD7850D279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld */,
+				2DD784E3279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift */,
+				2DD784E4279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift */,
 				2D5DCB522749856A0018B73F /* Log+CoreDataClass.swift */,
 				2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */,
 				2D5DCB532749856A0018B73F /* Device+CoreDataClass.swift */,
 				2D5DCB542749856A0018B73F /* Device+CoreDataProperties.swift */,
-				2D5DCB4C274985690018B73F /* Quantitytype+CoreDataClass.swift */,
-				2D5DCB512749856A0018B73F /* Quantitytype+CoreDataProperties.swift */,
 				2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */,
 				2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */,
 				2D5DCB49274982F60018B73F /* Persistence.swift */,
@@ -258,7 +258,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D5DCB562749856A0018B73F /* Quantitytype+CoreDataClass.swift in Sources */,
 				2DC61A4B2607C15100AF2721 /* ListSourcesView.swift in Sources */,
 				2D44EEE826079B7E00A29E48 /* MainView.swift in Sources */,
 				2DBA08A22780E2A00020BCC9 /* StatisticWriter.swift in Sources */,
@@ -267,14 +266,15 @@
 				2D5DCB5A2749856A0018B73F /* Source+CoreDataProperties.swift in Sources */,
 				2D5DCB4A274982F60018B73F /* Persistence.swift in Sources */,
 				2DD32AB7260BCE9300B2F22A /* ListLogsView.swift in Sources */,
-				2DBA088927778C510020BCC9 /* healthKitConnector.xcdatamodeld in Sources */,
 				2D5DCB5C2749856A0018B73F /* Log+CoreDataClass.swift in Sources */,
-				2D5DCB5B2749856A0018B73F /* Quantitytype+CoreDataProperties.swift in Sources */,
 				2DAA436E26503C760043F2A4 /* peas_QuantityTypes.swift in Sources */,
 				2D4E3977261CD41B00C8283E /* HealthKitView.swift in Sources */,
+				2DD784E6279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift in Sources */,
 				2D5DCB592749856A0018B73F /* Source+CoreDataClass.swift in Sources */,
 				2D44EEA72607925D00A29E48 /* healthKitConnectorApp.swift in Sources */,
 				2D5DCB62274994170018B73F /* extensions.swift in Sources */,
+				2DD784E5279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift in Sources */,
+				2DD7850F279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld in Sources */,
 				2D5DCB5E2749856A0018B73F /* Device+CoreDataProperties.swift in Sources */,
 				2D5DCB5D2749856A0018B73F /* Device+CoreDataClass.swift in Sources */,
 				2D5B821526230B6600BFFE19 /* ListQuantityTypes.swift in Sources */,
@@ -473,12 +473,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2DBA088727778C510020BCC9 /* healthKitConnector.xcdatamodeld */ = {
+		2DD7850D279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2DBA088827778C510020BCC9 /* healthKitConnector.xcdatamodel */,
+				2DD7850E279DA41D00B6DA63 /* healthKitConnector.xcdatamodel */,
 			);
-			currentVersion = 2DBA088827778C510020BCC9 /* healthKitConnector.xcdatamodel */;
+			currentVersion = 2DD7850E279DA41D00B6DA63 /* healthKitConnector.xcdatamodel */;
 			path = healthKitConnector.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

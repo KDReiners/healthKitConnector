@@ -2,7 +2,7 @@
 //  Quantitytype+CoreDataClass.swift
 //  
 //
-//  Created by Klaus-Dieter Reiners on 20.11.21.
+//  Created by Klaus-Dieter Reiners on 22.01.22.
 //
 //
 

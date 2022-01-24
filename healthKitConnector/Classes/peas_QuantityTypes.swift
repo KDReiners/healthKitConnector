@@ -140,20 +140,14 @@ class peas_QuantityTypes: ObservableObject {
     }
     func createTestData() {
         var dateFrom: Date
-        var dateTo: Date
-        var rangeFrom: Double
-        var rangeTo: Double
-        var sampleCount: Int = 60
+        let sampleCount: Int = 6
         dateFrom = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date(), direction: .backward)!
-        dateTo = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
         self.listOfQuantityTypes.forEach { type in
-            var randomInt : Int
-                for hour in 1...sampleCount {
-                    randomInt = Int.random(in: -12..<12)
-                    let entryDateFrom = Calendar.current.date(byAdding: .hour, value: hour, to: dateFrom)!
-                    let changeQuantity = hour < 11 ? hour : -hour
-                    let quantity = HKQuantity(unit: type.value.preferredUnit, doubleValue: Double(100 + changeQuantity))
-                    writeQuantitySample(type: type.value.quantityType, quantity: quantity, start: entryDateFrom, end: entryDateFrom,  metaData: [:] )
+            for hour in 1...sampleCount {
+                let entryDateFrom = Calendar.current.date(byAdding: .hour, value: hour, to: dateFrom)!
+                let changeQuantity = hour < 11 ? hour : -hour
+                let quantity = HKQuantity(unit: type.value.preferredUnit, doubleValue: Double(100 + changeQuantity))
+                writeQuantitySample(type: type.value.quantityType, quantity: quantity, start: entryDateFrom, end: entryDateFrom,  metaData: [:] )
                 }
         }
     }
