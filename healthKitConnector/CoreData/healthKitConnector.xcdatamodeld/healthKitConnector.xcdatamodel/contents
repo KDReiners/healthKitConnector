@@ -21,6 +21,7 @@
         <attribute name="mostRecentStartDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="mostRecentTimeInterval" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="mostRecentValue" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="recentStartDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timeStamp" attributeType="Date" defaultDateTimeInterval="-28947600" usesScalarValueType="NO"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="value" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -48,7 +49,7 @@
     </entity>
     <elements>
         <element name="Device" positionX="-43.8695068359375" positionY="-264.2937469482422" width="128" height="208"/>
-        <element name="Log" positionX="-267.0009155273438" positionY="-354.2608795166016" width="128" height="224"/>
+        <element name="Log" positionX="-267.0009155273438" positionY="-354.2608795166016" width="128" height="239"/>
         <element name="Quantitytype" positionX="-484.8496704101562" positionY="-248.0467681884766" width="128" height="119"/>
         <element name="Source" positionX="-259.8517456054688" positionY="-164.2729949951172" width="128" height="58"/>
     </elements>

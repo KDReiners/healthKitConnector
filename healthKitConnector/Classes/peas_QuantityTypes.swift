@@ -99,12 +99,12 @@ class peas_QuantityTypes: ObservableObject {
         }
         group.wait()
     }
-    func getStatistics() -> Void {
+    func getStatistics(dateFrom: Date) -> Void {
         let group = DispatchGroup()
         listOfQuantityTypes.forEach { quantityType in
             print("Called getStatistics for: \(quantityType.key)")
             group.enter()
-            quantityType.value.getStatistics() {
+            quantityType.value.getStatistics(dateFrom: dateFrom) {
                 print("********** End **********")
                 print("")
                 group.leave()
@@ -138,10 +138,8 @@ class peas_QuantityTypes: ObservableObject {
             return results[0]
         }
     }
-    func createTestData() {
-        var dateFrom: Date
+    func createTestData(dateFrom: Date) {
         let sampleCount: Int = 6
-        dateFrom = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date(), direction: .backward)!
         self.listOfQuantityTypes.forEach { type in
             for hour in 1...sampleCount {
                 let entryDateFrom = Calendar.current.date(byAdding: .hour, value: hour, to: dateFrom)!

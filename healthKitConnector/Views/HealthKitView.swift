@@ -9,42 +9,50 @@ import SwiftUI
 import HealthKit
 struct HealthKitView: View {
     @EnvironmentObject var bo:peas_QuantityTypes
+    @State var dateFrom = Date("2017-01-01")
+    @State var dateTo = Date("2017-12-31")
     var body: some View {
-        VStack {
-            Button(action: createTestData) {
-                    Text("Create Testdata")
-                        .font(.largeTitle)
-                        .bold()
+        ScrollView {
+            VStack {
+                Button(action: createTestData) {
+                        Text("Create Testdata")
+                            .font(.largeTitle)
+                            .bold()
 
-            }
-            Button(action: deleteTestData) {
-                    Text("Delete Testdata")
-                        .font(.largeTitle)
+                }
+//                Button(action: deleteTestData) {
+//                        Text("Delete Testdata")
+//                            .font(.largeTitle)
+//                            .bold()
+//
+//                }
+//                Button(action: fetchAllHealthData) {
+//                        Text("Fetch Samples")
+//                            .font(.largeTitle)
+//                            .bold()
+//
+//                }
+//                Button(action: updateSources) {
+//                        Text("Fetch Sources")
+//                            .font(.largeTitle)
+//                            .bold()
+//
+//                }
+                Divider()
+                Button(action: getStatistics) {
+                    Text("StatisticsCollectionQuery")
+                        .font(.title)
                         .bold()
-
-            }
-            Button(action: fetchAllHealthData) {
-                    Text("Fetch Samples")
-                        .font(.largeTitle)
-                        .bold()
-
-            }
-            Button(action: updateSources) {
-                    Text("Fetch Sources")
-                        .font(.largeTitle)
-                        .bold()
-
-            }
-            Divider()
-            Button(action: getStatistics) {
-                Text("StatisticsCollectionQuery")
-                    .font(.title)
-                    .bold()
+                }
+                Divider()
+                DatePicker(selection: $dateFrom, in: ...Date(), displayedComponents: .date) {
+                                Text("StartDate")
+                }
             }
         }
     }
     func createTestData() -> Void {
-        bo.createTestData()
+        bo.createTestData(dateFrom: dateFrom)
     }
     func deleteTestData() -> Void {
         bo.deleteTestData {
@@ -54,7 +62,7 @@ struct HealthKitView: View {
         bo.fetchAllHealthData()
     }
     func getStatistics() -> Void {
-        bo.getStatistics()
+        bo.getStatistics(dateFrom: dateFrom)
     }
     func updateSources() -> Void {
         bo.listOfQuantityTypes.forEach { quantityType in

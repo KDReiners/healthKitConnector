@@ -88,7 +88,9 @@ class peas_QuantityType: cloud_Delegate {
                 cd_Log.maxValue = result.maximumQuantity!
                 cd_Log.minValue = result.minimumQuantity!
                 cd_Log.mostRecentValue = result.mostRecentQuantity!
-//                cd_Log.mostRecentTimeInterval = result.mostRecentQuantityDateInterval
+                cd_Log.mostRecentStartDate = result.mostRecentQuantityDateInterval?.start
+                cd_Log.mostRecentEndDate = result.mostRecentQuantityDateInterval?.end
+                cd_Log.mostRecentDuration = result.mostRecentQuantityDateInterval?.duration ?? 0
                 cd_Log.log2quantitytype = cd_QuantityType
                 cd_Log.log2source = cd_Source
                 cd_Log.log2Device = cd_Device
@@ -241,9 +243,9 @@ class peas_QuantityType: cloud_Delegate {
         }
         return result
     }
-    internal func getStatistics(completion: @escaping() -> Void) {
+    internal func getStatistics(dateFrom: Date,completion: @escaping() -> Void) {
         if createTestData == false {
-            let statisticWriter = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit)
+            let statisticWriter = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit, dateFrom: dateFrom)
             statisticWriter.cloudWriter = self
             statisticWriter.gatherInformation(aggregationStyle: self.quantityType.aggregationStyle) {
                 completion()

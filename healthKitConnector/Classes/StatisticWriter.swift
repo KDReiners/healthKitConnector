@@ -21,17 +21,19 @@ internal class StatisticWriter {
     var preferredUnit: HKUnit
     var interval = DateComponents()
     let calendar = Calendar.current
-    let startDate = Date("2018-01-01")
-    let endDate = Date("2018-12-31")
+    let dateFrom: Date!
+    let dateTo: Date!
     var anchorDate : Date
     internal var items : [QueryResult]
     
-    init(healthStore: HKHealthStore, quantityType: HKQuantityType, preferredUnit: HKUnit) {
+    init(healthStore: HKHealthStore, quantityType: HKQuantityType, preferredUnit: HKUnit, dateFrom: Date) {
         self.healthStore = healthStore
         self.quantityType = quantityType
         self.preferredUnit = preferredUnit
+        self.dateFrom = dateFrom
+        self.dateTo = Calendar.current.date(byAdding: .month, value: 1, to: dateFrom)
         self.interval.hour = 1
-        self.anchorDate = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: startDate)!
+        self.anchorDate = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: dateFrom)!
         self.items = []
     }
     internal struct QueryResult {
@@ -55,7 +57,7 @@ internal class StatisticWriter {
             minimumQuantity = hkStatistics.minimumQuantity()?.doubleValue(for: preferredUnit) ?? 0
             maximumQuantity = hkStatistics.maximumQuantity()?.doubleValue(for: preferredUnit) ?? 0
             mostRecentQuantity = hkStatistics.mostRecentQuantity()?.doubleValue(for: preferredUnit) ?? 0
-            mostRecentQuantityDateInterval = hkStatistics.mostRecentQuantityDateInterval()
+            mostRecentQuantityDateInterval = hkStatistics.mostRecentQuantityDateInterval() ?? DateInterval.init(start: hkStatistics.startDate, end: endDate)
         }
     }
 internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, completion: @escaping() -> Void) -> Void  {
@@ -63,7 +65,7 @@ internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, co
     let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage, .discreteMin, .discreteMax, .mostRecent]
     let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
         query.initialResultsHandler = { query, results, error in
-            results?.enumerateStatistics(from: self.startDate, to: self.endDate, with: {
+            results?.enumerateStatistics(from: self.dateFrom, to: self.dateTo, with: {
                 (result, stop) in
                 if result.quantityType == self.quantityType {
                     let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
@@ -84,7 +86,7 @@ internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, co
                 return
             }
             self.items.removeAll()
-            results.enumerateStatistics(from: self.startDate, to: Date()) { result, stop in
+            results.enumerateStatistics(from: self.dateFrom, to: Date()) { result, stop in
                 if result.quantityType == self.quantityType {
                     let item = QueryResult(hkStatistics: result, preferredUnit: self.preferredUnit)
                     self.items.append(item)
