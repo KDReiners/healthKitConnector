@@ -10,7 +10,7 @@ import HealthKit
 import CoreData
 import SwiftUI
 protocol cloud_Delegate: AnyObject {
-    func storeInCloud(queryResults: [StatisticWriter.QueryResult])
+    func storeInCloud(queryResults: [StatisticWriter.QueryResult]) -> Int64
     func fetchOutdatedLogs(queryResults: [StatisticWriter.QueryResult])
     var createTestData: Bool { get  }
 }
@@ -60,8 +60,9 @@ internal class StatisticWriter {
             mostRecentQuantityDateInterval = hkStatistics.mostRecentQuantityDateInterval() ?? DateInterval.init(start: hkStatistics.startDate, end: endDate)
         }
     }
-internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, completion: @escaping() -> Void) -> Void  {
+    internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, completion: @escaping(_ recordCount: Int64) -> Void) -> Void {
         print("Called gatherInformation for: \(self.quantityType)")
+    var recordCount: Int64 = 0
     let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage, .discreteMin, .discreteMax, .mostRecent]
     let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
         query.initialResultsHandler = { query, results, error in
@@ -75,9 +76,9 @@ internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, co
                     print("Something went wrong")
                 }
             })
-            self.cloudWriter!.storeInCloud(queryResults: self.items)
+            recordCount = self.cloudWriter!.storeInCloud(queryResults: self.items)
             print("completion from initialResultHandler")
-            completion()
+            completion(recordCount)
         }
         query.statisticsUpdateHandler = { query, statistics, results, error in
             print("In statisticsUpdateHandler...")
@@ -95,7 +96,7 @@ internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, co
                     print("Something went wrong")
                 }
             }
-            self.cloudWriter!.storeInCloud(queryResults: self.items)
+            recordCount = self.cloudWriter!.storeInCloud(queryResults: self.items)
             print("NO completion from statisticUpdateHandler")
         }
         if !self.cloudWriter!.createTestData {

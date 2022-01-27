@@ -71,14 +71,15 @@ class peas_QuantityType: cloud_Delegate {
             }
         }
     }
-    func storeInCloud(queryResults: [StatisticWriter.QueryResult]) {
+    func storeInCloud(queryResults: [StatisticWriter.QueryResult]) -> Int64 {
         print("Called storeInCloud for: \(self.quantityType)")
+        var recordCount: Int64 = 0
 //        fetchOutdatedLogs(queryResults: queryResults)
         deleteLogsFromCloud(logs: outdatedLogs)
         queryResults.forEach { result in
             var logValue: Double = 0.00
-            if result.averageQuantity != nil || result.sumQuantity != nil {
-                logValue = (result.averageQuantity == nil ? result.sumQuantity! : result.averageQuantity!)
+            if result.averageQuantity! > 0 || result.sumQuantity! > 0 {
+                logValue = (result.averageQuantity! == 0 ? result.sumQuantity! : result.averageQuantity!)
             }
             if logValue != 0 {
                 let cd_Log = Log(context: moc)
@@ -94,8 +95,10 @@ class peas_QuantityType: cloud_Delegate {
                 cd_Log.log2quantitytype = cd_QuantityType
                 cd_Log.log2source = cd_Source
                 cd_Log.log2Device = cd_Device
+                recordCount = recordCount + 1
             }
         }
+        return recordCount
     }
     fileprivate func storeSamples(_ samples: [HKQuantitySample]) {
         createTestData = true
@@ -243,16 +246,17 @@ class peas_QuantityType: cloud_Delegate {
         }
         return result
     }
-    internal func getStatistics(dateFrom: Date,completion: @escaping() -> Void) {
+    internal func getStatistics(dateFrom: Date,completion: @escaping(_ recordCount: Int64) -> Void) {
+        let recordCount: Int64 = 0
         if createTestData == false {
             let statisticWriter = StatisticWriter(healthStore: self.healthStore, quantityType: self.quantityType, preferredUnit: self.preferredUnit, dateFrom: dateFrom)
             statisticWriter.cloudWriter = self
-            statisticWriter.gatherInformation(aggregationStyle: self.quantityType.aggregationStyle) {
-                completion()
+            statisticWriter.gatherInformation(aggregationStyle: self.quantityType.aggregationStyle) {recordCount in
+                completion(recordCount)
             }
         }
         else {
-            completion()
+            completion(recordCount)
         }
     }
     // MARK: Helpers
