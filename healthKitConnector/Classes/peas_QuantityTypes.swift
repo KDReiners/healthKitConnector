@@ -25,7 +25,7 @@ class peas_QuantityTypes: ObservableObject {
     var moc: NSManagedObjectContext
     var container = CKContainer.init(identifier: "iCloud.peas")
     var db : CKDatabase?
-    fileprivate let readData =  Set([HKObjectType.quantityType(forIdentifier:  .heartRate)!,
+    fileprivate let readData =  Set([HKObjectType.quantityType(forIdentifier: .heartRate)!,
                                      HKObjectType.quantityType(forIdentifier: .bloodGlucose)!,
                                      HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,
                                      HKObjectType.quantityType(forIdentifier: .restingHeartRate)!,
