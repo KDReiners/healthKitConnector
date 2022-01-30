@@ -20,12 +20,12 @@ struct HealthKitView: View {
                             .bold()
 
                 }
-//                Button(action: deleteTestData) {
-//                        Text("Delete Testdata")
-//                            .font(.largeTitle)
-//                            .bold()
-//
-//                }
+                Button(action: deleteTestData) {
+                        Text("Delete Testdata")
+                            .font(.largeTitle)
+                            .bold()
+
+                }
 //                Button(action: fetchAllHealthData) {
 //                        Text("Fetch Samples")
 //                            .font(.largeTitle)
