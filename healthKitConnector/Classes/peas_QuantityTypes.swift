@@ -31,14 +31,14 @@ class peas_QuantityTypes: ObservableObject {
                                      HKObjectType.quantityType(forIdentifier: .restingHeartRate)!,
                                      HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)!,
                                      HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
-                                     HKObjectType.quantityType(forIdentifier:  .basalEnergyBurned)!])
+                                     HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)!])
     fileprivate let writeData = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!,
                                      HKObjectType.quantityType(forIdentifier: .bloodGlucose)!,
                                      HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!,
                                      HKObjectType.quantityType(forIdentifier: .restingHeartRate)!,
                                      HKObjectType.quantityType(forIdentifier: .dietaryCarbohydrates)!,
                                      HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
-                                     HKObjectType.quantityType(forIdentifier:  .basalEnergyBurned)!])
+                                     HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)!])
     
     internal var listOfQuantityTypes = Dictionary<String, peas_QuantityType>()
     init() {
