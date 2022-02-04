@@ -25,7 +25,7 @@ class peas_Sample {
     }
 }
 class peas_QuantityType: cloud_Delegate {
-    var outdatedLogs = [NSManagedObject]()
+    internal var outdatedLogs = [NSManagedObject]()
     var quantityType: HKQuantityType
     var healthStore: HKHealthStore
     var sources = Set<HKSource>()
@@ -74,8 +74,8 @@ class peas_QuantityType: cloud_Delegate {
     func storeInCloud(queryResults: [StatisticWriter.QueryResult]) -> Int64 {
         print("Called storeInCloud for: \(self.quantityType)")
         var recordCount: Int64 = 0
-//        fetchOutdatedLogs(queryResults: queryResults)
-        deleteLogsFromCloud(logs: outdatedLogs)
+        fetchOutdatedLogs(queryResults: queryResults)
+//        deleteLogsFromCloud(logs: outdatedLogs)
         queryResults.forEach { result in
             var logValue: Double = 0.00
             if result.averageQuantity! > 0 || result.sumQuantity! > 0 {
@@ -108,7 +108,7 @@ class peas_QuantityType: cloud_Delegate {
         }
         createTestData = false
     }
-    func deleteLogsFromCloud(logs: [NSManagedObject]?) {
+    internal func deleteLogsFromCloud(logs: [NSManagedObject]?) {
         guard let logs = logs else { return }
         logs.forEach{ log in
             moc.delete(log)

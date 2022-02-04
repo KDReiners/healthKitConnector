@@ -111,6 +111,9 @@ class peas_QuantityTypes: ObservableObject {
                 group.leave()
             }
             group.wait()
+            listOfQuantityTypes.forEach { quantityType in
+                quantityType.value.deleteLogsFromCloud(logs: quantityType.value.outdatedLogs)
+            }
             do {
                 try self.moc.save()
             }
@@ -140,7 +143,7 @@ class peas_QuantityTypes: ObservableObject {
         }
     }
     func createTestData(dateFrom: Date) {
-        let sampleCount: Int = 1000
+        let sampleCount: Int = 100
         self.listOfQuantityTypes.forEach { type in
             print("Creating sample data for quantityType: \(type.value.quantityType)")
             var factor: Double = 1
