@@ -15,6 +15,7 @@ protocol cloud_Delegate: AnyObject {
     var createTestData: Bool { get  }
 }
 internal class StatisticWriter {
+    var isFetching: Bool = false
     var healthStore: HKHealthStore
     var quantityType: HKQuantityType
     weak var cloudWriter: cloud_Delegate?
@@ -62,10 +63,11 @@ internal class StatisticWriter {
     }
     internal func gatherInformation(aggregationStyle: HKQuantityAggregationStyle, completion: @escaping(_ recordCount: Int64) -> Void) -> Void {
         print("Called gatherInformation for: \(self.quantityType)")
-    var recordCount: Int64 = 0
-    let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage, .discreteMin, .discreteMax, .mostRecent]
-    let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
-        query.initialResultsHandler = { query, results, error in
+        var recordCount: Int64 = 0
+        isFetching = true
+        let options: HKStatisticsOptions = aggregationStyle == .cumulative ? [.cumulativeSum] : [.discreteAverage, .discreteMin, .discreteMax, .mostRecent]
+        let query = HKStatisticsCollectionQuery.init(quantityType: self.quantityType, quantitySamplePredicate: nil, options: options, anchorDate: self.anchorDate, intervalComponents: self.interval)
+            query.initialResultsHandler = { query, results, error in
             results?.enumerateStatistics(from: self.dateFrom, to: self.dateTo, with: {
                 (result, stop) in
                 if result.quantityType == self.quantityType {
@@ -97,12 +99,19 @@ internal class StatisticWriter {
                 }
             }
             recordCount = self.cloudWriter!.storeInCloud(queryResults: self.items)
-            print("NO completion from statisticUpdateHandler")
+            if !self.isFetching {
+                print("NO completion from statisticUpdateHandler")
+            } else
+            {
+                print("Completion from statisticUpdateHandler")
+                completion(recordCount)
+                
+            }
         }
         if !self.cloudWriter!.createTestData {
             healthStore.execute(query)
         } else {
-            print("do not update while creating testdata!")
+            print("Do not update while creating testdata!")
         }
     }
 }
