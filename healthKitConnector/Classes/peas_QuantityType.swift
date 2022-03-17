@@ -7,7 +7,8 @@
 import HealthKit
 import Foundation
 import CoreData
-import UIKit
+import healthKitPackage
+
 // MARK: - Classes
 class peas_Sample {
     var sourceRevision: HKSourceRevision
@@ -47,7 +48,7 @@ class peas_QuantityType: cloud_Delegate {
         self.healthStore = healthStore
         self.preferredUnit  = preferredUnit
         self.options = peas_QuantityTypes.statiticDictionary[quantityType]!
-        self.moc = PersistenceController.shared.cloudContainer.viewContext
+        self.moc = PersistenceController.shared.container.viewContext
         self.cd_QuantityType = CD_UpdateQuantityTypes(quantityType: self.quantityType)
         self.cd_Device = CD_updateDevices(device: deviceInstance )
         self.cd_Source = CD_updateSources(sourceRevision: HKSourceRevision(source: HKSource.default(), version: "1.0"))

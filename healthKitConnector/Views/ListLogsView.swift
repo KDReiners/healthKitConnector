@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import healthKitPackage
 struct ListLogsView: View {
     @Environment(\.managedObjectContext) var moc
     

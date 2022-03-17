@@ -7,6 +7,8 @@
 
 import SwiftUI
 import HealthKit
+import healthKitPackage
+
 struct HealthKitView: View {
     @EnvironmentObject var bo:peas_QuantityTypes
     @State var dateFrom = Date("2017-01-01")

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,27 +16,13 @@
 		2D4E397E261CD5D300C8283E /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4E397D261CD5D300C8283E /* HealthKit.framework */; };
 		2D5A8106263DB6D3002899B9 /* peas_QuantityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5A8105263DB6D3002899B9 /* peas_QuantityType.swift */; };
 		2D5B821526230B6600BFFE19 /* ListQuantityTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B821426230B6600BFFE19 /* ListQuantityTypes.swift */; };
-		2D5DCB4A274982F60018B73F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB49274982F60018B73F /* Persistence.swift */; };
-		2D5DCB572749856A0018B73F /* Log+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */; };
-		2D5DCB592749856A0018B73F /* Source+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */; };
-		2D5DCB5A2749856A0018B73F /* Source+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */; };
-		2D5DCB5C2749856A0018B73F /* Log+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB522749856A0018B73F /* Log+CoreDataClass.swift */; };
-		2D5DCB5D2749856A0018B73F /* Device+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB532749856A0018B73F /* Device+CoreDataClass.swift */; };
-		2D5DCB5E2749856A0018B73F /* Device+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB542749856A0018B73F /* Device+CoreDataProperties.swift */; };
 		2D5DCB62274994170018B73F /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DCB61274994170018B73F /* extensions.swift */; };
+		2D82B5D527D66EF200256114 /* healthKitPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 2D82B5D427D66EF200256114 /* healthKitPackage */; };
 		2DAA436E26503C760043F2A4 /* peas_QuantityTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA436D26503C750043F2A4 /* peas_QuantityTypes.swift */; };
 		2DBA08A22780E2A00020BCC9 /* StatisticWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA08A12780E29F0020BCC9 /* StatisticWriter.swift */; };
-		2DBFB4C827AF0F2F00ACB410 /* LogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFB4C727AF0F2F00ACB410 /* LogModel.swift */; };
 		2DBFB4CA27AF0F8F00ACB410 /* ViewBaseFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFB4C927AF0F8F00ACB410 /* ViewBaseFoundation.swift */; };
-		2DBFB4CD27AF0FD000ACB410 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFB4CB27AF0FD000ACB410 /* Model.swift */; };
-		2DBFB4CE27AF0FD000ACB410 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFB4CC27AF0FD000ACB410 /* Storage.swift */; };
-		2DBFB4D127AF102A00ACB410 /* EntityAttributeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFB4CF27AF102A00ACB410 /* EntityAttributeInfo.swift */; };
-		2DBFB4D227AF102A00ACB410 /* BaseServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFB4D027AF102A00ACB410 /* BaseServices.swift */; };
-		2DBFB4D427AF10F900ACB410 /* GenericViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFB4D327AF10F800ACB410 /* GenericViewModel.swift */; };
 		2DC61A4B2607C15100AF2721 /* ListSourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D44EEF12607B1EB00A29E48 /* ListSourcesView.swift */; };
 		2DD32AB7260BCE9300B2F22A /* ListLogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD32AB6260BCE9300B2F22A /* ListLogsView.swift */; };
-		2DD784E5279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD784E3279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift */; };
-		2DD784E6279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD784E4279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift */; };
 		2DD7850F279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DD7850D279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -58,26 +44,11 @@
 		2D4E397D261CD5D300C8283E /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		2D5A8105263DB6D3002899B9 /* peas_QuantityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peas_QuantityType.swift; sourceTree = "<group>"; };
 		2D5B821426230B6600BFFE19 /* ListQuantityTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListQuantityTypes.swift; sourceTree = "<group>"; };
-		2D5DCB49274982F60018B73F /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Log+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Source+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Source+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2D5DCB522749856A0018B73F /* Log+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Log+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2D5DCB532749856A0018B73F /* Device+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Device+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2D5DCB542749856A0018B73F /* Device+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Device+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2D5DCB61274994170018B73F /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		2DAA436D26503C750043F2A4 /* peas_QuantityTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peas_QuantityTypes.swift; sourceTree = "<group>"; };
 		2DBA08A12780E29F0020BCC9 /* StatisticWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticWriter.swift; sourceTree = "<group>"; };
-		2DBFB4C727AF0F2F00ACB410 /* LogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogModel.swift; path = ../healthKitShaman/healthKitShaman/Classes/LogModel.swift; sourceTree = "<group>"; };
 		2DBFB4C927AF0F8F00ACB410 /* ViewBaseFoundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewBaseFoundation.swift; path = ../healthKitShaman/healthKitShaman/Views/ViewBaseFoundation.swift; sourceTree = "<group>"; };
-		2DBFB4CB27AF0FD000ACB410 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Model.swift; path = ../healthKitShaman/healthKitShaman/GenericClasses/Model.swift; sourceTree = "<group>"; };
-		2DBFB4CC27AF0FD000ACB410 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Storage.swift; path = ../healthKitShaman/healthKitShaman/GenericClasses/Storage.swift; sourceTree = "<group>"; };
-		2DBFB4CF27AF102A00ACB410 /* EntityAttributeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntityAttributeInfo.swift; path = ../healthKitShaman/healthKitShaman/Structs/EntityAttributeInfo.swift; sourceTree = "<group>"; };
-		2DBFB4D027AF102A00ACB410 /* BaseServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseServices.swift; path = ../healthKitShaman/healthKitShaman/Structs/BaseServices.swift; sourceTree = "<group>"; };
-		2DBFB4D327AF10F800ACB410 /* GenericViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GenericViewModel.swift; path = ../healthKitShaman/healthKitShaman/Protocols/GenericViewModel.swift; sourceTree = "<group>"; };
 		2DD32AB6260BCE9300B2F22A /* ListLogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLogsView.swift; sourceTree = "<group>"; };
-		2DD784E3279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2DD784E4279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quantitytype+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2DD7850E279DA41D00B6DA63 /* healthKitConnector.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = healthKitConnector.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +59,7 @@
 			files = (
 				2D44EEDC260792E900A29E48 /* CloudKit.framework in Frameworks */,
 				2D4E397E261CD5D300C8283E /* HealthKit.framework in Frameworks */,
+				2D82B5D527D66EF200256114 /* healthKitPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,13 +69,7 @@
 		2D44EE9A2607925D00A29E48 = {
 			isa = PBXGroup;
 			children = (
-				2DBFB4D327AF10F800ACB410 /* GenericViewModel.swift */,
-				2DBFB4D027AF102A00ACB410 /* BaseServices.swift */,
-				2DBFB4CF27AF102A00ACB410 /* EntityAttributeInfo.swift */,
-				2DBFB4CB27AF0FD000ACB410 /* Model.swift */,
-				2DBFB4CC27AF0FD000ACB410 /* Storage.swift */,
 				2DBFB4C927AF0F8F00ACB410 /* ViewBaseFoundation.swift */,
-				2DBFB4C727AF0F2F00ACB410 /* LogModel.swift */,
 				2D44EEA52607925D00A29E48 /* healthKitConnector */,
 				2D44EEBC2607925D00A29E48 /* healthKitConnectorTests */,
 				2D44EEC72607925D00A29E48 /* healthKitConnectorUITests */,
@@ -184,15 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				2DD7850D279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld */,
-				2DD784E3279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift */,
-				2DD784E4279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift */,
-				2D5DCB522749856A0018B73F /* Log+CoreDataClass.swift */,
-				2D5DCB4D274985690018B73F /* Log+CoreDataProperties.swift */,
-				2D5DCB532749856A0018B73F /* Device+CoreDataClass.swift */,
-				2D5DCB542749856A0018B73F /* Device+CoreDataProperties.swift */,
-				2D5DCB4F2749856A0018B73F /* Source+CoreDataClass.swift */,
-				2D5DCB502749856A0018B73F /* Source+CoreDataProperties.swift */,
-				2D5DCB49274982F60018B73F /* Persistence.swift */,
 				2D5DCB61274994170018B73F /* extensions.swift */,
 			);
 			path = CoreData;
@@ -226,6 +183,9 @@
 			dependencies = (
 			);
 			name = healthKitConnector;
+			packageProductDependencies = (
+				2D82B5D427D66EF200256114 /* healthKitPackage */,
+			);
 			productName = healthKitConnector;
 			productReference = 2D44EEA32607925D00A29E48 /* healthKitConnector.app */;
 			productType = "com.apple.product-type.application";
@@ -253,6 +213,9 @@
 				Base,
 			);
 			mainGroup = 2D44EE9A2607925D00A29E48;
+			packageReferences = (
+				2D82B5D327D66EF200256114 /* XCRemoteSwiftPackageReference "healthKitPackage" */,
+			);
 			productRefGroup = 2D44EEA42607925D00A29E48 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -279,32 +242,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DBFB4D427AF10F900ACB410 /* GenericViewModel.swift in Sources */,
-				2DBFB4D127AF102A00ACB410 /* EntityAttributeInfo.swift in Sources */,
-				2DBFB4D227AF102A00ACB410 /* BaseServices.swift in Sources */,
-				2DBFB4CD27AF0FD000ACB410 /* Model.swift in Sources */,
-				2DBFB4CE27AF0FD000ACB410 /* Storage.swift in Sources */,
 				2DBA08A22780E2A00020BCC9 /* StatisticWriter.swift in Sources */,
 				2DBFB4CA27AF0F8F00ACB410 /* ViewBaseFoundation.swift in Sources */,
-				2DBFB4C827AF0F2F00ACB410 /* LogModel.swift in Sources */,
 				2DC61A4B2607C15100AF2721 /* ListSourcesView.swift in Sources */,
 				2D44EEE826079B7E00A29E48 /* MainView.swift in Sources */,
-				2D5DCB572749856A0018B73F /* Log+CoreDataProperties.swift in Sources */,
 				2D5A8106263DB6D3002899B9 /* peas_QuantityType.swift in Sources */,
-				2D5DCB5A2749856A0018B73F /* Source+CoreDataProperties.swift in Sources */,
-				2D5DCB4A274982F60018B73F /* Persistence.swift in Sources */,
 				2DD32AB7260BCE9300B2F22A /* ListLogsView.swift in Sources */,
-				2D5DCB5C2749856A0018B73F /* Log+CoreDataClass.swift in Sources */,
 				2DAA436E26503C760043F2A4 /* peas_QuantityTypes.swift in Sources */,
 				2D4E3977261CD41B00C8283E /* HealthKitView.swift in Sources */,
-				2DD784E6279C74B700B6DA63 /* Quantitytype+CoreDataProperties.swift in Sources */,
-				2D5DCB592749856A0018B73F /* Source+CoreDataClass.swift in Sources */,
 				2D44EEA72607925D00A29E48 /* healthKitConnectorApp.swift in Sources */,
 				2D5DCB62274994170018B73F /* extensions.swift in Sources */,
-				2DD784E5279C74B700B6DA63 /* Quantitytype+CoreDataClass.swift in Sources */,
 				2DD7850F279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld in Sources */,
-				2D5DCB5E2749856A0018B73F /* Device+CoreDataProperties.swift in Sources */,
-				2D5DCB5D2749856A0018B73F /* Device+CoreDataClass.swift in Sources */,
 				2D5B821526230B6600BFFE19 /* ListQuantityTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,7 +388,7 @@
 				DEVELOPMENT_TEAM = LSTXQY64N9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = healthKitConnector/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -464,7 +412,7 @@
 				DEVELOPMENT_TEAM = LSTXQY64N9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = healthKitConnector/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -499,6 +447,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2D82B5D327D66EF200256114 /* XCRemoteSwiftPackageReference "healthKitPackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/KDReiners/healthKitPackage";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2D82B5D427D66EF200256114 /* healthKitPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D82B5D327D66EF200256114 /* XCRemoteSwiftPackageReference "healthKitPackage" */;
+			productName = healthKitPackage;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		2DD7850D279DA41D00B6DA63 /* healthKitConnector.xcdatamodeld */ = {

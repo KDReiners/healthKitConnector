@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import healthKitPackage
 struct ListQuantityTypes: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Quantitytype.entity(), sortDescriptors: []) var quantityTypes: FetchedResults<Quantitytype>

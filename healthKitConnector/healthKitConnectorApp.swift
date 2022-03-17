@@ -8,7 +8,7 @@
 import SwiftUI
 import HealthKit
 import CoreData
-
+import healthKitPackage
 @main
 
 struct healthKitConnectorApp: App {
@@ -16,7 +16,7 @@ struct healthKitConnectorApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .environment(\.managedObjectContext, persistenceController.cloudContainer.viewContext)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
         
     }

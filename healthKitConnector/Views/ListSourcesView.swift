@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import healthKitPackage
 struct ListSourcesView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Source.entity(), sortDescriptors: []) var sources: FetchedResults<Source>

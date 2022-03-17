@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import SwiftUI
 import CloudKit
-
+import healthKitPackage
 
 class peas_QuantityTypes: ObservableObject {
     internal let healthStore = HKHealthStore()
@@ -42,7 +42,7 @@ class peas_QuantityTypes: ObservableObject {
     
     internal var listOfQuantityTypes = Dictionary<String, peas_QuantityType>()
     init() {
-        self.moc=PersistenceController.shared.cloudContainer.viewContext
+        self.moc=PersistenceController.shared.container.viewContext
         //setupCloudkitInteraction()
     }
     func setupCloudkitInteraction() -> Void {
