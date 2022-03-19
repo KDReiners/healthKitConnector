@@ -69,6 +69,7 @@ class peas_QuantityTypes: ObservableObject {
         
     }
     func syncLoadTasks() {
+        
         isAllowed(completion: { result in
             let preferredUnits = DispatchQueue.global(qos: .default)
             preferredUnits.async { [self] in
@@ -77,8 +78,10 @@ class peas_QuantityTypes: ObservableObject {
                 })
                 func addQuantityType(results: [HKQuantityType : HKUnit], Error:Error?) ->Void {
                     readData.forEach {
-                        let qt: peas_QuantityType = peas_QuantityType(quantityType: $0, preferredUnit: results[$0]!, healthStore: healthStore)
-                            listOfQuantityTypes[$0.identifier] = qt
+                        if healthStore.authorizationStatus(for: $0) == HKAuthorizationStatus.sharingAuthorized {
+                            let qt: peas_QuantityType = peas_QuantityType(quantityType: $0, preferredUnit: results[$0]!, healthStore: healthStore)
+                                listOfQuantityTypes[$0.identifier] = qt
+                        }
                     }
                 }
             }
