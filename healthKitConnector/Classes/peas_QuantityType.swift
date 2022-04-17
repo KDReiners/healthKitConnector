@@ -278,7 +278,7 @@ class peas_QuantityType: cloud_Delegate {
     func returnItemForAttributeOfEntity(entity: String, uniqueIdentity: String,idAttributeName:String, idDate: Date? = nil, quantityType: peas_QuantityType? = nil) -> NSManagedObject? {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entity)
         if entity != "Log" {
-            fetchRequest.predicate = NSPredicate(format: "\(idAttributeName) =  %@", uniqueIdentity)
+            fetchRequest.predicate = NSPredicate(format: "\(idAttributeName) ==  %@", uniqueIdentity)
         }
         else {
             
